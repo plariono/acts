@@ -76,6 +76,7 @@ class RootTrackParameterWriter final : public TrackParameterWriter {
   TTree* m_outputTree{nullptr};  ///< The output tree
   int m_eventNr{0};              ///< the event number of
 
+  int m_charge{0};          ///< charge
   float m_loc0{NaNfloat};   ///< loc0
   float m_loc1{NaNfloat};   ///< loc1
   float m_phi{NaNfloat};    ///< phi
@@ -92,6 +93,7 @@ class RootTrackParameterWriter final : public TrackParameterWriter {
   float m_t_phi{NaNfloat};      ///< Truth parameter phi
   float m_t_theta{NaNfloat};    ///< Truth parameter theta
   float m_t_qop{NaNfloat};      ///< Truth parameter qop
+  float m_t_pt{NaNfloat};       ///< Truth parameter pt
   float m_t_time{NaNfloat};     ///< Truth parameter time
   bool m_truthMatched = false;  ///< Whether the seed is matched with truth
 };

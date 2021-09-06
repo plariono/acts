@@ -99,7 +99,11 @@ ActsExamples::ProcessCode ActsExamples::ParticleSmearing::execute(
                              << ", " << params[Acts::eBoundTime] << ","
                              << params[Acts::eBoundPhi] << ","
                              << params[Acts::eBoundTheta] << ","
-                             << params[Acts::eBoundQOverP]);
+                             << params[Acts::eBoundQOverP]
+                             << ", using m_cfg.sigmaPRel = " << m_cfg.sigmaPRel
+                             << ", m_cfg.sigmaD0 = " << m_cfg.sigmaD0
+                             << ", sigmaP = " << sigmaP
+                             << " and stdNormal(rng) = " << stdNormal(rng));
 
       // build the track covariance matrix using the smearing sigmas
       Acts::BoundSymMatrix cov = Acts::BoundSymMatrix::Zero();

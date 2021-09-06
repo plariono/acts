@@ -76,6 +76,7 @@ ActsExamples::RootTrackParameterWriter::RootTrackParameterWriter(
   else {
     // The estimated track parameters
     m_outputTree->Branch("event_nr", &m_eventNr);
+    m_outputTree->Branch("charge", &m_charge);
     m_outputTree->Branch("loc0", &m_loc0);
     m_outputTree->Branch("loc1", &m_loc1);
     m_outputTree->Branch("phi", &m_phi);
@@ -87,11 +88,13 @@ ActsExamples::RootTrackParameterWriter::RootTrackParameterWriter(
     m_outputTree->Branch("eta", &m_eta);
     // The truth track parameters
     m_outputTree->Branch("eventNr", &m_eventNr);
+    m_outputTree->Branch("t_charge", &m_t_charge);
     m_outputTree->Branch("t_loc0", &m_t_loc0);
     m_outputTree->Branch("t_loc1", &m_t_loc1);
     m_outputTree->Branch("t_phi", &m_t_phi);
     m_outputTree->Branch("t_theta", &m_t_theta);
     m_outputTree->Branch("t_qop", &m_t_qop);
+    m_outputTree->Branch("t_pt", &m_t_pt);
     m_outputTree->Branch("t_time", &m_t_time);
     m_outputTree->Branch("truthMatched", &m_truthMatched);
   }
@@ -155,6 +158,7 @@ ActsExamples::ProcessCode ActsExamples::RootTrackParameterWriter::writeT(
     m_p = std::abs(1.0 / m_qop);
     m_pt = m_p * std::sin(m_theta);
     m_eta = std::atanh(std::cos(m_theta));
+    m_charge = (m_qop > 0) ? 1 : -1;
 
     // Get the proto track from which the track parameters are estimated
     const auto& ptrack = protoTracks[iparams];
@@ -192,6 +196,7 @@ ActsExamples::ProcessCode ActsExamples::RootTrackParameterWriter::writeT(
         const auto& particle = *ip;
         m_t_charge = particle.charge();
         m_t_qop = m_t_charge / p;
+        m_t_pt = p * std::sin(m_t_theta);
       } else {
         ACTS_WARNING("Truth particle with barcode = " << particleId
                                                       << " not found!");
