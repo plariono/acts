@@ -56,6 +56,21 @@ ActsExamples::ProcessCode ActsExamples::ParticleSmearing::execute(
       const auto p = particle.absoluteMomentum();
       const auto q = particle.charge();
 
+      // compute the pt resolution corresponding to Werners formula
+      const double eta =
+          abs(Acts::VectorHelpers::eta(particle.unitDirection()));
+      const double stepE0E = ((1.75 - eta) < 0 ? 0 : 1);
+      const double stepEE0 = ((eta - 1.75) < 0 ? 0 : 1);
+      const double msterm =
+          0.02 * sqrt(cosh(eta)) * stepE0E +
+          0.4 * stepEE0 *
+              pow((0.4 / (0.02 * sqrt(cosh(1.75)))), ((eta - 4) / (4 - 1.75)));
+      const double bfield = 2.;
+      const double levarm = 1 * stepE0E + 2.8 * stepEE0 / sinh(eta);
+      const double prterm =
+          10 * 1e-6 * pt * sqrt(720 / 15) / (0.3 * bfield * levarm * levarm);
+      const double sigmaPtFormula = sqrt(msterm * msterm + prterm * prterm);
+
       // compute momentum-dependent resolutions
       const double sigmaD0 =
           m_cfg.sigmaD0 +
@@ -63,7 +78,7 @@ ActsExamples::ProcessCode ActsExamples::ParticleSmearing::execute(
       const double sigmaZ0 =
           m_cfg.sigmaZ0 +
           m_cfg.sigmaZ0PtA * std::exp(-1.0 * std::abs(m_cfg.sigmaZ0PtB) * pt);
-      const double sigmaP = m_cfg.sigmaPRel * p;
+      const double sigmaP = sigmaPtFormula * 1.5 * p;
       // var(q/p) = (d(1/p)/dp)² * var(p) = (-1/p²)² * var(p)
       const double sigmaQOverP = sigmaP / (p * p);
       // shortcuts for other resolutions

@@ -118,9 +118,9 @@ ActsExamples::ParticleSmearing::Config setupParticleSmearing(
   particleSmearingCfg.sigmaZ0 = 20_um;
   particleSmearingCfg.sigmaZ0PtA = 30_um;
   particleSmearingCfg.sigmaZ0PtB = 0.3 / 1_GeV;
-  particleSmearingCfg.sigmaPhi = 1_degree;
-  particleSmearingCfg.sigmaTheta = 1_degree;
-  particleSmearingCfg.sigmaPRel = 0.01;
+  particleSmearingCfg.sigmaPhi = 10_degree;
+  particleSmearingCfg.sigmaTheta = 5_degree;
+  particleSmearingCfg.sigmaPRel = 0.05;
   particleSmearingCfg.sigmaT0 = 1_ns;
   particleSmearingCfg.initialVarInflation =
       vars["fit-initial-variance-inflation"].template as<Options::Reals<6>>();
