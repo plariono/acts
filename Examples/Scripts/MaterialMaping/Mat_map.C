@@ -221,6 +221,12 @@ void Mat_map(std::string Val = "", std::string geantino = "", std::string name =
     GM->Print( (name+"/geant_mat_map.png").c_str());
     //GM->Print( (name+"/geant_mat_map.pdf").c_str());
 
+    // 2D map for Geantino input zoomed
+    TCanvas *GMzoom = new TCanvas("GMzoom","Geantino Map zoom") ;
+    geantino_file->Draw("mat_y:mat_z","fabs(mat_x)<1 && mat_z > 0 && mat_z < 500 && mat_y > -250 && mat_y < 250");
+    GMzoom->Print( (name+"/geant_mat_map_zoom.png").c_str());
+
+
     // X0 as function of Eta for Geantino input
     TCanvas *GM_X0_Eta = new TCanvas("GM_X0_Eta","Geantino X0 Eta") ;
     geantino_file->Draw("t_X0:v_eta>>geantino_X0_Eta","","profile");
