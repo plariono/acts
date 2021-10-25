@@ -141,7 +141,8 @@ int runSeedingExample(int argc, char* argv[],
   seedingCfg.seedFinderConfig.maxSeedsPerSpM =
       seedingCfg.seedFilterConfig.maxSeedsPerSpM;
 
-  seedingCfg.gridConfig.cotThetaMax = 7.40627;  // 2.7 eta
+  // seedingCfg.gridConfig.cotThetaMax = 7.40627;  // 2.7 eta
+  seedingCfg.gridConfig.cotThetaMax = 27.2899172;  // 4. eta
   seedingCfg.seedFinderConfig.cotThetaMax = seedingCfg.gridConfig.cotThetaMax;
 
   seedingCfg.seedFinderConfig.sigmaScattering = 50;
