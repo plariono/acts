@@ -125,10 +125,11 @@ int main(int argc, char** argv) {
   config.zMax = 2800._mm;
   config.maxSeedsPerSpM = 5;
   // 2.7 eta
-  config.cotThetaMax = 7.40627;
+  // config.cotThetaMax = 7.40627;
+  config.cotThetaMax = 27.2899172;
   config.sigmaScattering = 1.00000;
 
-  config.minPt = 500._MeV;
+  config.minPt = 50._MeV;
   config.bFieldInZ = 1.99724_T;
 
   config.beamPos = {-.5_mm, -.5_mm};

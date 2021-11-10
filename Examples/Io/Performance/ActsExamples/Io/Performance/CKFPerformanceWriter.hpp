@@ -50,7 +50,7 @@ class CKFPerformanceWriter final : public WriterT<TrajectoriesContainer> {
     DuplicationPlotTool::Config duplicationPlotToolConfig;
     TrackSummaryPlotTool::Config trackSummaryPlotToolConfig;
     /// Min reco-truth matching probability
-    double truthMatchProbMin = 0.5;
+    double truthMatchProbMin = 1.;
     /// Min number of measurements
     size_t nMeasurementsMin = 9;
     /// Min transverse momentum

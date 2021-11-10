@@ -95,10 +95,10 @@ int runSeedingExample(int argc, char* argv[],
   particleSelectorCfg.inputMeasurementParticlesMap =
       digiCfg.outputMeasurementParticlesMap;
   particleSelectorCfg.outputParticles = "particles_selected";
-  particleSelectorCfg.ptMin = 1_GeV;
-  particleSelectorCfg.etaMax = 2.5;
-  particleSelectorCfg.etaMin = -2.5;
-  particleSelectorCfg.nHitsMin = 9;
+  particleSelectorCfg.ptMin = 50_MeV;
+  particleSelectorCfg.etaMax = 4.;
+  particleSelectorCfg.etaMin = -4.;
+  particleSelectorCfg.nHitsMin = 7;
   sequencer.addAlgorithm(
       std::make_shared<TruthSeedSelector>(particleSelectorCfg, logLevel));
 
@@ -137,7 +137,7 @@ int runSeedingExample(int argc, char* argv[],
   seedingCfg.seedFinderConfig.zMin = seedingCfg.gridConfig.zMin;
   seedingCfg.seedFinderConfig.zMax = seedingCfg.gridConfig.zMax;
 
-  seedingCfg.seedFilterConfig.maxSeedsPerSpM = 1;
+  seedingCfg.seedFilterConfig.maxSeedsPerSpM = 5;
   seedingCfg.seedFinderConfig.maxSeedsPerSpM =
       seedingCfg.seedFilterConfig.maxSeedsPerSpM;
 
@@ -148,7 +148,7 @@ int runSeedingExample(int argc, char* argv[],
   seedingCfg.seedFinderConfig.sigmaScattering = 50;
   seedingCfg.seedFinderConfig.radLengthPerSeed = 0.1;
 
-  seedingCfg.gridConfig.minPt = 500._MeV;
+  seedingCfg.gridConfig.minPt = 50._MeV;
   seedingCfg.seedFinderConfig.minPt = seedingCfg.gridConfig.minPt;
 
   seedingCfg.gridConfig.bFieldInZ = 1.99724_T;
