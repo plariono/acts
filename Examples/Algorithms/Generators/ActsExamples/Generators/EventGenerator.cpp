@@ -50,13 +50,14 @@ ActsExamples::ProcessCode ActsExamples::EventGenerator::read(
     // generate the primary vertices from this generator
     for (size_t n = (*generate.multiplicity)(rng); 0 < n; --n) {
       nPrimaryVertices += 1;
-
+      // ACTS_INFO("multiplicity = " << n);
+      // ACTS_INFO("nPrimaryVertices = " << nPrimaryVertices);
       // generate primary vertex position
       auto vertexPosition = (*generate.vertex)(rng);
       // generate particles associated to this vertex
       auto vertexParticles = (*generate.particles)(rng);
 
-      ACTS_VERBOSE("Generate vertex at " << vertexPosition.transpose());
+      //ACTS_INFO("Generate vertex at " << vertexPosition.transpose());
 
       auto updateParticleInPlace = [&](ActsFatras::Particle& particle) {
         // only set the primary vertex, leave everything else as-is
@@ -72,6 +73,7 @@ ActsExamples::ProcessCode ActsExamples::EventGenerator::read(
         particle = particle.withParticleId(pid).setPosition4(pos4);
       };
       for (auto& vertexParticle : vertexParticles) {
+        // ACTS_INFO("vertexParticle id = " << vertexParticle.particleId());
         updateParticleInPlace(vertexParticle);
       }
 
