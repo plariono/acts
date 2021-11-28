@@ -124,7 +124,7 @@ int runRecCKFTracks(int argc, char* argv[],
   particleSelectorCfg.inputMeasurementParticlesMap =
       digiCfg.outputMeasurementParticlesMap;
   particleSelectorCfg.outputParticles = "particles_selected";
-  particleSelectorCfg.ptMin = 50_MeV;
+  particleSelectorCfg.ptMin = 100_MeV;
   particleSelectorCfg.nHitsMin = 7;
   sequencer.addAlgorithm(
       std::make_shared<TruthSeedSelector>(particleSelectorCfg, logLevel));
@@ -202,7 +202,7 @@ int runRecCKFTracks(int argc, char* argv[],
       seedingCfg.seedFinderConfig.sigmaScattering = 5;
       seedingCfg.seedFinderConfig.radLengthPerSeed = 0.1;
 
-      seedingCfg.gridConfig.minPt = 50._MeV;
+      seedingCfg.gridConfig.minPt = 100._MeV;
       seedingCfg.seedFinderConfig.minPt = seedingCfg.gridConfig.minPt;
 
       seedingCfg.gridConfig.bFieldInZ = 1.99724_T;
@@ -288,7 +288,7 @@ int runRecCKFTracks(int argc, char* argv[],
       digiCfg.outputMeasurementSimHitsMap;
   trackStatesWriter.filePath = outputDir + "/trackstates_ckf.root";
   trackStatesWriter.treeName = "trackstates";
-  //sequencer.addWriter(std::make_shared<RootTrajectoryStatesWriter>(
+  // sequencer.addWriter(std::make_shared<RootTrajectoryStatesWriter>(
   //    trackStatesWriter, logLevel));
 
   // write track summary from CKF
@@ -314,7 +314,7 @@ int runRecCKFTracks(int argc, char* argv[],
       digiCfg.outputMeasurementParticlesMap;
   // The bottom seed could be the first, second or third hits on the truth track
   perfWriterCfg.nMeasurementsMin = particleSelectorCfg.nHitsMin;
-  perfWriterCfg.ptMin = 50_MeV;
+  perfWriterCfg.ptMin = 100_MeV;
   perfWriterCfg.filePath = outputDir + "/performance_ckf.root";
 #ifdef ACTS_PLUGIN_ONNX
   // Onnx plugin related options
