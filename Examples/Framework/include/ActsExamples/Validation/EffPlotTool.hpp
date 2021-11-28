@@ -28,7 +28,7 @@ class EffPlotTool {
     std::map<std::string, PlotHelpers::Binning> varBinning = {
         {"Eta", PlotHelpers::Binning("#eta", 40, -4, 4)},
         {"Phi", PlotHelpers::Binning("#phi", 100, -3.15, 3.15)},
-        {"Pt", PlotHelpers::Binning("pT [GeV/c]", 49, 0.01, 10)}};
+        {"Pt", PlotHelpers::Binning("pT [GeV/c]", 50, 0.01, 10.)}};
   };
 
   /// @brief Nested Cache struct
