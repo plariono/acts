@@ -67,7 +67,7 @@ void ActsExamples::EffPlotTool::book(
   //   "trackeff_vs_pT_pi",
   //   "Tracking efficiency (#pi^{#pm});Truth pT [GeV/c];Efficiency", bPt);
   effPlotCache.trackEff_vs_pT_pi =
-      new TEfficiency("trackEff_vs_pT_pi",
+      new TEfficiency("trackeff_vs_pT_pi",
                       "Tracking efficiency (#pi^{#pm});Truth #it{p}_{T} "
                       "[GeV/#it{c}];Efficiency",
                       nBinsPt, xBinsPt);
