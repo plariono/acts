@@ -25,7 +25,7 @@ struct SeedfinderConfig {
 
   // Seed Cuts
   // lower cutoff for seeds
-  float minPt = 60. * Acts::UnitConstants::MeV;
+  float minPt = 100. * Acts::UnitConstants::MeV;
   // cot of maximum theta angle
   // equivalent to 2.7 eta (pseudorapidity)
   // float cotThetaMax = 7.40627;

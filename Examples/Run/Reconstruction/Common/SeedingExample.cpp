@@ -95,7 +95,7 @@ int runSeedingExample(int argc, char* argv[],
   particleSelectorCfg.inputMeasurementParticlesMap =
       digiCfg.outputMeasurementParticlesMap;
   particleSelectorCfg.outputParticles = "particles_selected";
-  particleSelectorCfg.ptMin = 60_MeV;
+  particleSelectorCfg.ptMin = 100_MeV;
   particleSelectorCfg.etaMax = 4.;
   particleSelectorCfg.etaMin = -4.;
   particleSelectorCfg.nHitsMin = 7;
@@ -148,7 +148,7 @@ int runSeedingExample(int argc, char* argv[],
   seedingCfg.seedFinderConfig.sigmaScattering = 50;
   seedingCfg.seedFinderConfig.radLengthPerSeed = 0.1;
 
-  seedingCfg.gridConfig.minPt = 60._MeV;
+  seedingCfg.gridConfig.minPt = 100._MeV;
   seedingCfg.seedFinderConfig.minPt = seedingCfg.gridConfig.minPt;
 
   seedingCfg.gridConfig.bFieldInZ = 1.99724_T;
