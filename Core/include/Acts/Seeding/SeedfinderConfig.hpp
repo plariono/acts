@@ -69,7 +69,8 @@ struct SeedfinderConfig {
   // which will make seeding very slow!
   float rMin = 33 * Acts::UnitConstants::mm;
 
-  float bFieldInZ = 2.08 * Acts::UnitConstants::T;
+  // float bFieldInZ = 2.08 * Acts::UnitConstants::T;
+  float bFieldInZ = 0.5 * Acts::UnitConstants::T;
   // location of beam in x,y plane.
   // used as offset for Space Points
   Acts::Vector2 beamPos{0 * Acts::UnitConstants::mm,
