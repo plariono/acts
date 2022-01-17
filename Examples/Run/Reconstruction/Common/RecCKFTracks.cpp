@@ -289,8 +289,8 @@ int runRecCKFTracks(int argc, char* argv[],
       digiCfg.outputMeasurementSimHitsMap;
   trackStatesWriter.filePath = outputDir + "/trackstates_ckf.root";
   trackStatesWriter.treeName = "trackstates";
-  // sequencer.addWriter(std::make_shared<RootTrajectoryStatesWriter>(
-  //    trackStatesWriter, logLevel));
+  sequencer.addWriter(std::make_shared<RootTrajectoryStatesWriter>(
+      trackStatesWriter, logLevel));
 
   // write track summary from CKF
   RootTrajectorySummaryWriter::Config trackSummaryWriter;
