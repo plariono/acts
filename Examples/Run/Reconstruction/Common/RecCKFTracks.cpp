@@ -37,6 +37,7 @@
 #include "ActsExamples/TruthTracking/TruthTrackFinder.hpp"
 #include "ActsExamples/Utilities/Options.hpp"
 #include "ActsExamples/Utilities/Paths.hpp"
+#include "ActsExamples/Utilities/PrintFinalParticleStats.hpp"
 #include <Acts/Definitions/Units.hpp>
 
 #include <memory>
@@ -132,8 +133,16 @@ int runRecCKFTracks(int argc, char* argv[],
   // The selected particles
   const auto& inputParticles = particleSelectorCfg.outputParticles;
 
-  // Create starting parameters from either particle smearing or combined seed
-  // finding and track parameters estimation
+  // Config particle printing
+  PrintFinalParticleStats::Config particlesPrintCfg;
+  particlesPrintCfg.inParticles = inputParticles;
+  particlesPrintCfg.inSimulatedHits = digiCfg.outputMeasurements;
+
+  sequencer.addAlgorithm(
+      std::make_shared<PrintFinalParticleStats>(particlesPrintCfg, logLevel));
+
+  // Create starting parameters from either particle smearing or combined
+  // seed finding and track parameters estimation
   std::string outputTrackParameters;
   if (truthSmearedSeeded) {
     // Run the particle smearing

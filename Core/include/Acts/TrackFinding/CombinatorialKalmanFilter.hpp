@@ -291,7 +291,11 @@ class CombinatorialKalmanFilter {
         return;
       }
 
-      ACTS_VERBOSE("CombinatorialKalmanFilter step");
+      // ACTS_VERBOSE("CombinatorialKalmanFilter step");
+      ACTS_VERBOSE("CombinatorialKalmanFilter step at pos: "
+                   << stepper.position(state.stepping).transpose()
+                   << " dir: " << stepper.direction(state.stepping).transpose()
+                   << " momentum: " << stepper.momentum(state.stepping));
 
       // Update:
       // - Waiting for a current surface

@@ -13,6 +13,7 @@ add_library(
   src/Validation/ResPlotTool.cpp
   src/Validation/TrackClassification.cpp
   src/Validation/TrackSummaryPlotTool.cpp
+  include/ActsExamples/Utilities/PrintFinalParticleStats.hpp
 )
 target_include_directories(
   ActsExamplesFramework
