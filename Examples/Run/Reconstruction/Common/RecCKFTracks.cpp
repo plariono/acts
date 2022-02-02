@@ -136,7 +136,7 @@ int runRecCKFTracks(int argc, char* argv[],
   // Config particle printing
   PrintFinalParticleStats::Config particlesPrintCfg;
   particlesPrintCfg.inParticles = inputParticles;
-  particlesPrintCfg.inSimulatedHits = digiCfg.outputMeasurements;
+  particlesPrintCfg.inSimulatedHits = simHitReaderCfg.outputSimHits;
 
   sequencer.addAlgorithm(
       std::make_shared<PrintFinalParticleStats>(particlesPrintCfg, logLevel));
