@@ -41,6 +41,7 @@
 #include <iostream>
 #include <random>
 
+namespace ActsExamples {
 
 struct PrintFinalParticleStats : ActsExamples::BareAlgorithm {
   struct Config {
@@ -105,3 +106,5 @@ struct PrintFinalParticleStats : ActsExamples::BareAlgorithm {
     return ActsExamples::ProcessCode::SUCCESS;
   }
 };
+
+}  // namespace ActsExamples
