@@ -78,7 +78,7 @@ ActsExamples::ProcessCode ActsExamples::ParticleSmearing::execute(
       const double sigmaZ0 =
           m_cfg.sigmaZ0 +
           m_cfg.sigmaZ0PtA * std::exp(-1.0 * std::abs(m_cfg.sigmaZ0PtB) * pt);
-      const double sigmaP = sigmaPtFormula * 1.5 * p;
+      const double sigmaP = sigmaPtFormula * p;
       // var(q/p) = (d(1/p)/dp)² * var(p) = (-1/p²)² * var(p)
       const double sigmaQOverP = sigmaP / (p * p);
       // shortcuts for other resolutions
