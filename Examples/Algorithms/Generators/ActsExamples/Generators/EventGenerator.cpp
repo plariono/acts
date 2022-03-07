@@ -57,7 +57,7 @@ ActsExamples::ProcessCode ActsExamples::EventGenerator::read(
       // generate particles associated to this vertex
       auto vertexParticles = (*generate.particles)(rng);
 
-      //ACTS_INFO("Generate vertex at " << vertexPosition.transpose());
+      // ACTS_INFO("Generate vertex at " << vertexPosition.transpose());
 
       auto updateParticleInPlace = [&](ActsFatras::Particle& particle) {
         // only set the primary vertex, leave everything else as-is
