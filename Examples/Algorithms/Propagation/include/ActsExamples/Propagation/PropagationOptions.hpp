@@ -125,7 +125,7 @@ inline ActsExamples::PropagationAlgorithm::Config readPropagationConfig(
   pAlgConfig.ptRange = {iptr[0] * 1_GeV, iptr[1] * 1_GeV};
   pAlgConfig.ptLoopers = vm["prop-pt-loopers"].template as<double>() * 1_GeV;
   pAlgConfig.searchTolerance =
-      vm["prop-search-tolerance"].template as<double>() * 2_mm;
+      vm["prop-search-tolerance"].template as<double>() * 1_mm;
   pAlgConfig.maxStepSize = vm["prop-max-stepsize"].template as<double>() * 1_mm;
 
   pAlgConfig.propagationStepCollection =
