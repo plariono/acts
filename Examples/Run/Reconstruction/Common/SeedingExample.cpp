@@ -151,7 +151,7 @@ int runSeedingExample(int argc, char* argv[],
   seedingCfg.gridConfig.minPt = 100._MeV;
   seedingCfg.seedFinderConfig.minPt = seedingCfg.gridConfig.minPt;
 
-  //seedingCfg.gridConfig.bFieldInZ = 1.99724_T;
+  // seedingCfg.gridConfig.bFieldInZ = 1.99724_T;
   seedingCfg.gridConfig.bFieldInZ = 0.5_T;
   seedingCfg.seedFinderConfig.bFieldInZ = seedingCfg.gridConfig.bFieldInZ;
 
