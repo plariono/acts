@@ -152,7 +152,7 @@ int runSeedingExample(int argc, char* argv[],
   seedingCfg.seedFinderConfig.minPt = seedingCfg.gridConfig.minPt;
 
   // seedingCfg.gridConfig.bFieldInZ = 1.99724_T;
-  seedingCfg.gridConfig.bFieldInZ = 0.5_T;
+  seedingCfg.gridConfig.bFieldInZ = 1.99724_T;
   seedingCfg.seedFinderConfig.bFieldInZ = seedingCfg.gridConfig.bFieldInZ;
 
   seedingCfg.seedFinderConfig.beamPos = {0_mm, 0_mm};
