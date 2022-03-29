@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "Acts/Surfaces/BoundaryCheck.hpp"
+#include "Acts/Utilities/Helpers.hpp"
 #include "Acts/Utilities/Logger.hpp"
 #include "ActsExamples/Propagation/PropagationAlgorithm.hpp"
 
@@ -110,6 +112,11 @@ class ConcretePropagator : public PropagatorInterface {
       PropagatorOptions options(context.geoContext, context.magFieldContext,
                                 Acts::LoggerWrapper{logger()});
       options.pathLimit = pathLength;
+      options.boundaryCheck = true;
+      if (cfg.searchTolerance > 0.) {
+        options.boundaryCheck = Acts::BoundaryCheck(
+            true, true, cfg.searchTolerance, cfg.searchTolerance);
+      }
 
       // Activate loop protection at some pt value
       options.loopProtection =

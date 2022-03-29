@@ -99,6 +99,9 @@ class PropagationAlgorithm : public BareAlgorithm {
     /// looper protection
     double ptLoopers = 100 * Acts::UnitConstants::MeV;
 
+    /// Search tolerance
+    double searchTolerance = 2 * Acts::UnitConstants::mm;
+
     /// Max step size steering
     double maxStepSize = 3 * Acts::UnitConstants::m;
 
