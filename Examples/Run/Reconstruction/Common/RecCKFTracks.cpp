@@ -25,6 +25,9 @@
 #include "ActsExamples/Io/Root/RootTrajectorySummaryWriter.hpp"
 #include "ActsExamples/MagneticField/MagneticFieldOptions.hpp"
 #include "ActsExamples/Options/CommonOptions.hpp"
+#include "ActsExamples/Propagation/PropagationAlgorithm.hpp"
+#include "ActsExamples/Propagation/PropagationOptions.hpp"
+#include "ActsExamples/Propagation/PropagatorInterface.hpp"
 #include "ActsExamples/Reconstruction/ReconstructionBase.hpp"
 #include "ActsExamples/TrackFinding/SeedingAlgorithm.hpp"
 #include "ActsExamples/TrackFinding/SpacePointMaker.hpp"
@@ -72,6 +75,7 @@ int runRecCKFTracks(int argc, char* argv[],
   Options::addOutputOptions(desc,
                             OutputFormat::Csv | OutputFormat::DirectoryOnly);
   detector->addOptions(desc);
+  Options::addPropagationOptions(desc);
   Options::addMagneticFieldOptions(desc);
   Options::addFittingOptions(desc);
   Options::addTrackFindingOptions(desc);

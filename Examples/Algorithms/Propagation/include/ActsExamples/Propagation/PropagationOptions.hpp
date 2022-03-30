@@ -84,7 +84,7 @@ inline void addPropagationOptions(
       "Maximum step size for the propagation [in mm].")(
       "prop-pt-loopers", po::value<double>()->default_value(500_MeV),
       "Transverse momentum below which loops are being detected [in GeV].")(
-      "prop-search-tolerance", po::value<double>()->default_value(0_mm),
+      "prop-search-tolerance", po::value<double>()->default_value(1_mm),
       "Tolerance within sensitive surfaces are searched for [in mm].");
 }
 
