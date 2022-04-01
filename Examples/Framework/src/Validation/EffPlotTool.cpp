@@ -175,7 +175,7 @@ void ActsExamples::EffPlotTool::fill(EffPlotTool::EffPlotCache& effPlotCache,
   const auto t_phi = phi(truthParticle.unitDirection());
   const auto t_eta = eta(truthParticle.unitDirection());
   const auto t_pT = truthParticle.transverseMomentum();
-  const auto t_p = truthParticle.absoluteMomentum()();
+  const auto t_p = truthParticle.absoluteMomentum();
 
   PlotHelpers::fillEff(effPlotCache.trackEff_vs_pT, t_pT, status);
   PlotHelpers::fillEff(effPlotCache.trackEff_vs_p, t_p, status);
