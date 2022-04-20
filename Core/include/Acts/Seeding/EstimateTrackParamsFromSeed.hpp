@@ -280,6 +280,8 @@ std::optional<BoundVector> estimateTrackParamsFromSeed(
   ActsScalar pInGeV = std::abs(1.0 / params[eBoundQOverP]);
   ActsScalar pzInGeV = 1.0 / std::abs(qOverPt) * invTanTheta;
   ActsScalar massInGeV = mass / UnitConstants::GeV;
+  ACTS_INFO("Estimated momentum is pInGeV = " << pInGeV);
+  ACTS_INFO("Estimated pT is = " << 1 / qOverPt);
   // The estimated velocity, and its projection along the magnetic field
   // diretion
   ActsScalar v = pInGeV / std::hypot(pInGeV, massInGeV);
