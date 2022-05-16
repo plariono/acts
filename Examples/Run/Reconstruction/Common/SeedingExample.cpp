@@ -98,7 +98,7 @@ int runSeedingExample(int argc, char* argv[],
   particleSelectorCfg.ptMin = 1_GeV;
   particleSelectorCfg.etaMax = 4.;
   particleSelectorCfg.etaMin = -4.;
-  particleSelectorCfg.nHitsMin = 9;
+  particleSelectorCfg.nHitsMin = 7;
   sequencer.addAlgorithm(
       std::make_shared<TruthSeedSelector>(particleSelectorCfg, logLevel));
 

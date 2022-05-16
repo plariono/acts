@@ -50,11 +50,11 @@ class CKFPerformanceWriter final : public WriterT<TrajectoriesContainer> {
     DuplicationPlotTool::Config duplicationPlotToolConfig;
     TrackSummaryPlotTool::Config trackSummaryPlotToolConfig;
     /// Min reco-truth matching probability
-    double truthMatchProbMin = 0.5;
+    double truthMatchProbMin = 1.;
     /// Min number of measurements
-    size_t nMeasurementsMin = 9;
+    size_t nMeasurementsMin = 7;
     /// Min transverse momentum
-    double ptMin = 1 * Acts::UnitConstants::GeV;
+    double ptMin = 100 * Acts::UnitConstants::MeV;
     /// function to check if neural network predicted track label is duplicate
     std::function<bool(std::vector<float>&)> duplicatedPredictor = nullptr;
   };
