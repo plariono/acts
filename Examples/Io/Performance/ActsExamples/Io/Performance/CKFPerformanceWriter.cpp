@@ -222,6 +222,9 @@ ActsExamples::ProcessCode ActsExamples::CKFPerformanceWriter::writeT(
       continue;
     }
     auto particleId = particle.particleId();
+    // Select only primary particles
+    if (!(particleId.vertexSecondary() == 0 && particleId.generation() == 0))
+      continue;
     // Investigate the truth-matched tracks
     size_t nMatchedTracks = 0;
     bool isReconstructed = false;

@@ -88,19 +88,41 @@ ActsExamples::SimParticleContainer ActsExamples::Pythia8Generator::operator()(
     particleId.setParticle(1u + generated.size());
     // only secondaries have a defined vertex position
     if (genParticle.hasVertex()) {
-      // either add to existing secondary vertex if exists or create new one
-      // TODO can we do this w/o the manual search and position check?
-      auto it = std::find_if(
-          vertexPositions.begin(), vertexPositions.end(),
-          [=](const SimParticle::Vector4& pos) { return (pos == pos4); });
-      if (it == vertexPositions.end()) {
-        // no matching secondary vertex exists -> create new one
-        vertexPositions.emplace_back(pos4);
-        particleId.setVertexSecondary(vertexPositions.size());
-        ACTS_VERBOSE("created new secondary vertex " << pos4.transpose());
-      } else {
-        particleId.setVertexSecondary(
-            1u + std::distance(vertexPositions.begin(), it));
+      // select primary particles
+      auto isPrimary = [&](const Pythia8::Particle& particle) {
+        const auto& mother = m_pythia8->event[particle.mother1()];
+        bool res = false;
+        if (genParticle.mother1() < 0)
+          res = true;
+        if ((genParticle.mother1() == genParticle.mother2()) &&
+            (genParticle.mother1() == 0))
+          res = true;
+        if (mother.id() <= 8)
+          res = true;
+        if (abs(mother.id()) == 310 || abs(mother.id()) == 3122 ||
+            abs(mother.id()) == 3212 || abs(mother.id()) == 3112 ||
+            abs(mother.id()) == 3222 || abs(mother.id()) == 3312 ||
+            abs(mother.id()) == 3322 || abs(mother.id()) == 3334)
+          res = false;
+        return res;
+      };
+
+      if (not isPrimary(genParticle)) {
+        // ACTS_INFO("Found secondary: " << genParticle.id())
+        // either add to existing secondary vertex if exists or create new one
+        // TODO can we do this w/o the manual search and position check?
+        auto it = std::find_if(
+            vertexPositions.begin(), vertexPositions.end(),
+            [=](const SimParticle::Vector4& pos) { return (pos == pos4); });
+        if (it == vertexPositions.end()) {
+          // no matching secondary vertex exists -> create new one
+          vertexPositions.emplace_back(pos4);
+          particleId.setVertexSecondary(vertexPositions.size());
+          ACTS_VERBOSE("created new secondary vertex " << pos4.transpose());
+        } else {
+          particleId.setVertexSecondary(
+              1u + std::distance(vertexPositions.begin(), it));
+        }
       }
     }
 
