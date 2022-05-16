@@ -81,6 +81,7 @@ void ActsExamples::EffPlotTool::book(
 
   // protons
   effPlotCache.trackEff_vs_pT_Pr = new TEfficiency(
+      "trackeff_vs_pT_Pr",
       "Tracking efficiency (p^{#pm});Truth #it{p}_{T} [GeV/#it{c}];Efficiency",
       nBinsPt, xBinsPt);
   effPlotCache.trackEff_vs_eta_Pr = PlotHelpers::bookEff(
