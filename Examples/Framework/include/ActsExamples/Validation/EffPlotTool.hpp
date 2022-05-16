@@ -28,7 +28,7 @@ class EffPlotTool {
     std::map<std::string, PlotHelpers::Binning> varBinning = {
         {"Eta", PlotHelpers::Binning("#eta", 40, -4, 4)},
         {"Phi", PlotHelpers::Binning("#phi", 100, -3.15, 3.15)},
-        {"Pt", PlotHelpers::Binning("pT [GeV/c]", 40, 0, 100)}};
+        {"Pt", PlotHelpers::Binning("#it{p}_{T} [GeV/#it{c}]", 50, 0.01, 10)}};
   };
 
   /// @brief Nested Cache struct
@@ -36,6 +36,22 @@ class EffPlotTool {
     TEfficiency* trackEff_vs_pT{nullptr};   ///< Tracking efficiency vs pT
     TEfficiency* trackEff_vs_eta{nullptr};  ///< Tracking efficiency vs eta
     TEfficiency* trackEff_vs_phi{nullptr};  ///< Tracking efficiency vs phi
+
+    TEfficiency* trackEff_vs_pT_el;   ///< Tracking efficiency vs pT (electron)
+    TEfficiency* trackEff_vs_eta_el;  ///< Tracking efficiency vs eta (electron)
+    TEfficiency* trackEff_vs_phi_el;  ///< Tracking efficiency vs phi (electron)
+
+    TEfficiency* trackEff_vs_pT_pi;   ///< Tracking efficiency vs pT (pion)
+    TEfficiency* trackEff_vs_eta_pi;  ///< Tracking efficiency vs eta (pion)
+    TEfficiency* trackEff_vs_phi_pi;  ///< Tracking efficiency vs phi (pion)
+
+    TEfficiency* trackEff_vs_pT_Ka;   ///< Tracking efficiency vs pT (kaon)
+    TEfficiency* trackEff_vs_eta_Ka;  ///< Tracking efficiency vs eta (kaon)
+    TEfficiency* trackEff_vs_phi_Ka;  ///< Tracking efficiency vs phi (kaon)
+
+    TEfficiency* trackEff_vs_pT_Pr;   ///< Tracking efficiency vs pT (proton)
+    TEfficiency* trackEff_vs_eta_Pr;  ///< Tracking efficiency vs eta (proton)
+    TEfficiency* trackEff_vs_phi_Pr;  ///< Tracking efficiency vs phi (proton)
   };
 
   /// Constructor
