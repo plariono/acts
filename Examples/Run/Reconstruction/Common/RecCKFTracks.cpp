@@ -125,8 +125,8 @@ int runRecCKFTracks(int argc, char* argv[],
   particleSelectorCfg.inputMeasurementParticlesMap =
       digiCfg.outputMeasurementParticlesMap;
   particleSelectorCfg.outputParticles = "particles_selected";
-  particleSelectorCfg.ptMin = 500_MeV;
-  particleSelectorCfg.nHitsMin = 9;
+  particleSelectorCfg.ptMin = 100._MeV;
+  particleSelectorCfg.nHitsMin = 7;
   sequencer.addAlgorithm(
       std::make_shared<TruthSeedSelector>(particleSelectorCfg, logLevel));
 
@@ -203,7 +203,7 @@ int runRecCKFTracks(int argc, char* argv[],
       seedingCfg.seedFinderConfig.sigmaScattering = 50;
       seedingCfg.seedFinderConfig.radLengthPerSeed = 0.1;
 
-      seedingCfg.gridConfig.minPt = 500._MeV;
+      seedingCfg.gridConfig.minPt = 100._MeV;
       seedingCfg.seedFinderConfig.minPt = seedingCfg.gridConfig.minPt;
 
       seedingCfg.gridConfig.bFieldInZ = 1.99724_T;
@@ -315,7 +315,7 @@ int runRecCKFTracks(int argc, char* argv[],
       digiCfg.outputMeasurementParticlesMap;
   // The bottom seed could be the first, second or third hits on the truth track
   perfWriterCfg.nMeasurementsMin = particleSelectorCfg.nHitsMin;
-  perfWriterCfg.ptMin = 0.4_GeV;
+  perfWriterCfg.ptMin = 100._MeV;
   perfWriterCfg.filePath = outputDir + "/performance_ckf.root";
 #ifdef ACTS_PLUGIN_ONNX
   // Onnx plugin related options

@@ -133,7 +133,7 @@ int main(int argc, char** argv) {
   config.cotThetaMax = 27.2899172;  // 4. eta
   config.sigmaScattering = 1.00000;
 
-  config.minPt = 500._MeV;
+  config.minPt = 100._MeV;
   config.bFieldInZ = 1.99724_T;
 
   config.beamPos = {-.5_mm, -.5_mm};
