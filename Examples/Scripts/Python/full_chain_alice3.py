@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from ckf_tracks import addCKFTracks
-from seeding import addSeeding, SeedingAlgorithm, TruthSeedRanges
+from seeding import addSeeding, TruthSeedRanges
 from digitization import addDigitization
 from fatras import addFatras
 from particle_gun import addParticleGun, MomentumConfig, EtaConfig, ParticleConfig

@@ -96,8 +96,8 @@ int runRecTruthTracks(int argc, char* argv[],
   particleSelectorCfg.inputMeasurementParticlesMap =
       digiCfg.outputMeasurementParticlesMap;
   particleSelectorCfg.outputParticles = "particles_selected";
-  particleSelectorCfg.nHitsMin = 9;
-  particleSelectorCfg.ptMin = 500._MeV;
+  particleSelectorCfg.nHitsMin = 7;
+  particleSelectorCfg.ptMin = 100._MeV;
   sequencer.addAlgorithm(
       std::make_shared<TruthSeedSelector>(particleSelectorCfg, logLevel));
 
@@ -146,6 +146,8 @@ int runRecTruthTracks(int argc, char* argv[],
   fitter.multipleScattering =
       vm["fit-multiple-scattering-correction"].as<bool>();
   fitter.energyLoss = vm["fit-energy-loss-correction"].as<bool>();
+  fitter.reverseFilteringMomThreshold =
+      vm["fit-reversefilt-momthreshold"].as<double>();
   fitter.freeToBoundCorrection = Acts::FreeToBoundCorrection(
       vm["fit-ftob-nonlinear-correction"].as<bool>());
   fitter.pickTrack = vm["fit-pick-track"].as<int>();

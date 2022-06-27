@@ -22,6 +22,9 @@ void ActsExamples::Options::addFittingOptions(
   opt.add_options()("fit-energy-loss-correction",
                     value<bool>()->default_value(true),
                     "Correct for energyloss effects.");
+  opt.add_options()("fit-reversefilt-momthreshold",
+                    value<double>()->default_value(0.),
+                    "Enable reverse filtering.");
   opt.add_options()(
       "fit-ftob-nonlinear-correction", value<bool>()->default_value(false),
       "Correct for non-linear effects during free to bound transformation.");

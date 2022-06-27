@@ -108,10 +108,10 @@ struct TGeoDetector : public ActsExamples::IBaseDetector {
       Options::Interval binToleranceZ;
 
       bool cylinderDiscSplit = false;
-      unsigned int cylinderNZSegments;
-      unsigned int cylinderNPhiSegments;
-      unsigned int discNRSegments;
-      unsigned int discNPhiSegments;
+      int cylinderNZSegments;
+      int cylinderNPhiSegments;
+      int discNRSegments;
+      int discNPhiSegments;
 
       bool itkModuleSplit = false;
       std::map<std::string, unsigned int> barrelMap;

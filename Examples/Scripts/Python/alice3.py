@@ -32,8 +32,7 @@ def runALICE3(
 ):
 
     for ievt in range(events):
-        eventStore = WhiteBoard(
-            name=f"EventStore#{ievt}", level=acts.logging.INFO)
+        eventStore = WhiteBoard(name=f"EventStore#{ievt}", level=acts.logging.INFO)
         ialg = 0
 
         context = AlgorithmContext(ialg, ievt, eventStore)
@@ -99,7 +98,7 @@ def buildALICE3Geometry(
     geo_dir: Path,
     material: bool = True,
     jsonconfig: bool = False,
-    logLevel=acts.logging.WARNING,
+    logLevel=acts.logging.VERBOSE,
 ):
 
     logger = acts.logging.getLogger("buildALICE3Geometry")
@@ -137,7 +136,7 @@ def buildALICE3Geometry(
         fileName=str(tgeo_fileName),
         mdecorator=matDeco,
         buildBeamPipe=False,
-        unitScalor=1.0,  # explicit units
+        unitScalor=10.0,  # explicit units
         beamPipeRadius=23.934 * u.mm,
         beamPipeHalflengthZ=3000.0 * u.mm,
         beamPipeLayerThickness=0.8 * u.mm,
@@ -156,7 +155,7 @@ def buildALICE3Geometry(
                 sensitiveNames=LayerTriplet(
                     negative=["FT3Sensor*"], central=["ITSUSensor*"], positive=["FT3Sensor*"]),
                 sensitiveAxes=LayerTriplet("XYZ"),
-                rRange=LayerTriplet((0 * u.mm, 50 * u.mm)),
+                rRange=LayerTriplet((3 * u.mm, 30 * u.mm)),
                 zRange=LayerTriplet(
                     negative=(-400 * u.mm, -200 * u.mm),
                     central=(-250 * u.mm, 250 * u.mm),
@@ -181,128 +180,6 @@ def buildALICE3Geometry(
                 cylinderNZSegments=-1,
                 cylinderNPhiSegments=-1,
                 discNRSegments=1,
-                discNPhiSegments=32,
-                itkModuleSplit=False,
-                barrelMap={},
-                discMap={},
-            ),
-            Volume(
-                name="OuterPixels",
-                binToleranceR=(5 * u.mm, 5 * u.mm),
-                binToleranceZ=(5 * u.mm, 5 * u.mm),
-                binTolerancePhi=(0.025 * u.mm, 0.025 * u.mm),
-                layers=LayerTriplet(True),
-                subVolumeName=LayerTriplet(
-                    negative="FT3*", central="ITS*", positive="FT3*"),
-                sensitiveNames=LayerTriplet(
-                    negative=["FT3Sensor*"], central=["ITSUSensor*"], positive=["FT3Sensor*"]),
-                sensitiveAxes=LayerTriplet("XYZ"),
-                rRange=LayerTriplet(negative=(0 * u.mm, 1000 * u.mm),
-                                    central=(50 * u.mm, 440 * u.mm),
-                                    positive=(0 * u.mm, 1000 * u.mm)),
-                zRange=LayerTriplet(
-                    negative=(-1300 * u.mm, -600 * u.mm),
-                    central=(-700 * u.mm, 700 * u.mm),
-                    positive=(600 * u.mm, 1300 * u.mm),
-                ),
-                splitTolR=LayerTriplet(
-                    negative=-1, central=5 * u.mm, positive=-1
-                ),
-                splitTolZ=LayerTriplet(
-                    negative=5 * u.mm, central=-1.0, positive=5 * u.mm
-                ),
-                binning0=LayerTriplet(
-                    negative=[(0, equidistant)],
-                    central=[(0, equidistant)],
-                    positive=[(0, equidistant)],
-                ),
-                binning1=LayerTriplet(
-                    negative=[(0, equidistant)],
-                    central=[(0, equidistant)],
-                    positive=[(0, equidistant)],
-                ),
-                cylinderDiscSplit=True,
-                cylinderNZSegments=6,
-                cylinderNPhiSegments=32,
-                discNRSegments=6,
-                discNPhiSegments=32,
-                itkModuleSplit=False,
-                barrelMap={},
-                discMap={},
-            ),
-            Volume(
-                name="OuterMostBarrel",
-                binToleranceR=(5 * u.mm, 5 * u.mm),
-                binToleranceZ=(5 * u.mm, 5 * u.mm),
-                binTolerancePhi=(0.025 * u.mm, 0.025 * u.mm),
-                layers=LayerTriplet(
-                    positive=False, central=True, negative=False),
-                subVolumeName=LayerTriplet("ITS*"),
-                sensitiveNames=LayerTriplet(["ITSUSensor*"]),
-                sensitiveAxes=LayerTriplet("XYZ"),
-                rRange=LayerTriplet(
-                    central=(445 * u.mm, 1500 * u.mm),
-                ),
-                zRange=LayerTriplet(
-                    central=(-1400 * u.mm, 1400 * u.mm),
-                ),
-                splitTolR=LayerTriplet(
-                    central=5 * u.mm,
-                ),
-                splitTolZ=LayerTriplet(-1),
-                binning0=LayerTriplet(
-                    negative=[(0, equidistant)],
-                    central=[(0, equidistant)],
-                    positive=[(0, equidistant)],
-                ),
-                binning1=LayerTriplet(
-                    negative=[(0, equidistant)],
-                    central=[(0, equidistant)],
-                    positive=[(0, equidistant)],
-                ),
-                cylinderDiscSplit=True,
-                cylinderNZSegments=6,
-                cylinderNPhiSegments=32,
-                discNRSegments=-1,
-                discNPhiSegments=-1,
-                itkModuleSplit=False,
-                barrelMap={},
-                discMap={},
-            ),
-            Volume(
-                name="OuterMostEndcap",
-                binToleranceR=(5 * u.mm, 5 * u.mm),
-                binToleranceZ=(5 * u.mm, 5 * u.mm),
-                binTolerancePhi=(0.025 * u.mm, 0.025 * u.mm),
-                layers=LayerTriplet(
-                    positive=True, central=False, negative=True),
-                subVolumeName=LayerTriplet("FT3*"),
-                sensitiveNames=LayerTriplet(["FT3Sensor*"]),
-                sensitiveAxes=LayerTriplet("XYZ"),
-                rRange=LayerTriplet(
-                    negative=(0 * u.mm, 1500 * u.mm),
-                    positive=(0 * u.mm, 1500 * u.mm),
-                ),
-                zRange=LayerTriplet(
-                    negative=(-4200 * u.mm, -1350 * u.mm),
-                    positive=(1350 * u.mm, 4200 * u.mm),
-                ),
-                splitTolR=LayerTriplet(-1.0),
-                splitTolZ=LayerTriplet(negative=5 * u.mm, positive=5 * u.mm),
-                binning0=LayerTriplet(
-                    negative=[(0, equidistant)],
-                    central=[(0, equidistant)],
-                    positive=[(0, equidistant)],
-                ),
-                binning1=LayerTriplet(
-                    negative=[(0, equidistant)],
-                    central=[(0, equidistant)],
-                    positive=[(0, equidistant)],
-                ),
-                cylinderDiscSplit=True,
-                cylinderNZSegments=-1,
-                cylinderNPhiSegments=-1,
-                discNRSegments=6,
                 discNPhiSegments=32,
                 itkModuleSplit=False,
                 barrelMap={},
