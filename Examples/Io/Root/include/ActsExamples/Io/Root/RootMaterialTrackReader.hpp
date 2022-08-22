@@ -82,6 +82,9 @@ class RootMaterialTrackReader : public IReader {
   /// The input tree name
   TChain* m_inputChain = nullptr;
 
+  /// The batch size (number of track per events)
+  size_t m_batch = 0;
+
   /// Event identifier.
   uint32_t m_eventId;
 

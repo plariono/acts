@@ -63,11 +63,18 @@ ActsExamples::RootMaterialTrackReader::RootMaterialTrackReader(
   }
 
   m_events = m_inputChain->GetMaximum("event_id") + 1;
-  ACTS_DEBUG("The full chain has " << m_events << " entries.");
+  size_t nentries = m_inputChain->GetEntries();
+  m_batch = nentries / m_events;
+  ACTS_DEBUG("The full chain has "
+             << nentries << " entries for " << m_events
+             << " events this correspond to a batch size of : " << m_batch);
+  std::cout << "The full chain has " << nentries << " entries for " << m_events
+            << " events this correspond to a batch size of : " << m_batch
+            << std::endl;
 
   // If the events are not in order, get the entry numbers for ordered events
   if (not m_cfg.orderedEvents) {
-    m_entryNumbers.resize(m_events);
+    m_entryNumbers.resize(nentries);
     m_inputChain->Draw("event_id", "", "goff");
     // Sort to get the entry numbers of the ordered events
     TMath::Sort(m_inputChain->GetEntries(), m_inputChain->GetV1(),
@@ -113,20 +120,10 @@ ActsExamples::ProcessCode ActsExamples::RootMaterialTrackReader::read(
     // The collection to be written
     std::unordered_map<size_t, Acts::RecordedMaterialTrack> mtrackCollection;
 
-    // Find the start entry and the batch size for this event
-    std::string eventNumberStr = std::to_string(context.eventNumber);
-    std::string findStartEntry = "event_id<" + eventNumberStr;
-    std::string findBatchSize = "event_id==" + eventNumberStr;
-    size_t startEntry = m_inputChain->GetEntries(findStartEntry.c_str());
-    size_t batchSize = m_inputChain->GetEntries(findBatchSize.c_str());
-    ACTS_VERBOSE("The event has " << batchSize
-                                  << " entries with the start entry "
-                                  << startEntry);
-
     // Loop over the entries for this event
-    for (size_t ib = 0; ib < batchSize; ++ib) {
+    for (size_t ib = 0; ib < m_batch; ++ib) {
       // Read the correct entry: startEntry + ib
-      auto entry = startEntry + ib;
+      auto entry = m_batch * context.eventNumber + ib;
       if (not m_cfg.orderedEvents and entry < m_entryNumbers.size()) {
         entry = m_entryNumbers[entry];
       }
