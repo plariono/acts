@@ -365,7 +365,7 @@ struct WrappingConfig {
         //   throw std::invalid_argument(
         //       "Volumes are overlapping, this shouldn't be happening. Please "
         //       "check your geometry building.");
-        // }
+        }
 
         // check if gaps are needed
         //
