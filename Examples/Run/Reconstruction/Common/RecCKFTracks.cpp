@@ -176,11 +176,11 @@ int runRecCKFTracks(int argc, char* argv[],
       seedingCfg.gridConfig.rMax = 200._mm;
       seedingCfg.seedFinderConfig.rMax = seedingCfg.gridConfig.rMax;
 
-      seedingCfg.seedFilterConfig.deltaRMin = 1_mm;
+      seedingCfg.seedFilterConfig.deltaRMin = 5_mm;
       seedingCfg.seedFinderConfig.deltaRMin =
           seedingCfg.seedFilterConfig.deltaRMin;
 
-      seedingCfg.gridConfig.deltaRMax = 60._mm;
+      seedingCfg.gridConfig.deltaRMax = 270._mm;
       seedingCfg.seedFinderConfig.deltaRMax = seedingCfg.gridConfig.deltaRMax;
 
       seedingCfg.seedFinderConfig.collisionRegionMin = -250_mm;
@@ -191,15 +191,15 @@ int runRecCKFTracks(int argc, char* argv[],
       seedingCfg.seedFinderConfig.zMin = seedingCfg.gridConfig.zMin;
       seedingCfg.seedFinderConfig.zMax = seedingCfg.gridConfig.zMax;
 
-      seedingCfg.seedFilterConfig.maxSeedsPerSpM = 1;
+      seedingCfg.seedFilterConfig.maxSeedsPerSpM = 4;
       seedingCfg.seedFinderConfig.maxSeedsPerSpM =
           seedingCfg.seedFilterConfig.maxSeedsPerSpM;
 
-      seedingCfg.gridConfig.cotThetaMax = 7.40627;  // 2.7 eta
+      seedingCfg.gridConfig.cotThetaMax = 27.2899;  // 4.0 eta
       seedingCfg.seedFinderConfig.cotThetaMax =
           seedingCfg.gridConfig.cotThetaMax;
 
-      seedingCfg.seedFinderConfig.sigmaScattering = 50;
+      seedingCfg.seedFinderConfig.sigmaScattering = 2;
       seedingCfg.seedFinderConfig.radLengthPerSeed = 0.1;
 
       seedingCfg.gridConfig.minPt = 500._MeV;
@@ -210,7 +210,7 @@ int runRecCKFTracks(int argc, char* argv[],
 
       seedingCfg.seedFinderConfig.beamPos = {0_mm, 0_mm};
 
-      seedingCfg.seedFinderConfig.impactMax = 3._mm;
+      seedingCfg.seedFinderConfig.impactMax = 2._mm;
 
       sequencer.addAlgorithm(
           std::make_shared<SeedingAlgorithm>(seedingCfg, logLevel));

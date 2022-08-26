@@ -29,8 +29,8 @@ struct SeedfinderConfig {
   // lower cutoff for seeds
   float minPt = 400. * Acts::UnitConstants::MeV;
   // cot of maximum theta angle
-  // equivalent to 2.7 eta (pseudorapidity)
-  float cotThetaMax = 7.40627;
+  // equivalent to 4.0 eta (pseudorapidity)
+  float cotThetaMax = 27.2899;
   // minimum distance in r between two measurements within one seed
   float deltaRMin = 5 * Acts::UnitConstants::mm;
   // maximum distance in r between two measurements within one seed
@@ -66,7 +66,7 @@ struct SeedfinderConfig {
       std::numeric_limits<float>::infinity() * Acts::UnitConstants::mm;
 
   // enable cut on the compatibility between interaction point and SPs
-  bool interactionPointCut = false;
+  bool interactionPointCut = true;
 
   // use arithmetic average in the calculation of the squared error on the
   // difference in tan(theta)
@@ -87,15 +87,16 @@ struct SeedfinderConfig {
   // of 0.00003 leads to all helices with radius>33m to be considered compatible
 
   // impact parameter
-  float impactMax = 20. * Acts::UnitConstants::mm;
+  float impactMax = 2. * Acts::UnitConstants::mm;
 
   // how many sigmas of scattering angle should be considered?
-  float sigmaScattering = 5;
+  float sigmaScattering = 2;
   // Upper pt limit for scattering calculation
-  float maxPtScattering = 10 * Acts::UnitConstants::GeV;
+  float maxPtScattering =
+      std::numeric_limits<float>::infinity() * Acts::UnitConstants::GeV;
 
   // for how many seeds can one SpacePoint be the middle SpacePoint?
-  unsigned int maxSeedsPerSpM = 5;
+  unsigned int maxSeedsPerSpM = 4;
 
   // tolerance parameter used to check the compatibility of SPs coordinates in
   // xyz
@@ -128,7 +129,7 @@ struct SeedfinderConfig {
   // scattering.
   // default is 5%
   // TODO: necessary to make amount of material dependent on detector region?
-  float radLengthPerSeed = 0.05;
+  float radLengthPerSeed = 0.1;
   // alignment uncertainties, used for uncertainties in the
   // non-measurement-plane of the modules
   // which otherwise would be 0
