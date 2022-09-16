@@ -74,8 +74,8 @@ class TGeoLayerBuilder : public ILayerBuilder {
         : volumeName(""),
           sensorNames({}),
           localAxes("XZY"),
-          envelope(std::pair<double, double>(1 * UnitConstants::mm,
-                                             1 * UnitConstants::mm)) {}
+          envelope(std::pair<double, double>(0.1 * UnitConstants::mm,
+                                             0.1 * UnitConstants::mm)) {}
   };
 
   using ElementFactory = std::function<std::shared_ptr<TGeoDetectorElement>(
