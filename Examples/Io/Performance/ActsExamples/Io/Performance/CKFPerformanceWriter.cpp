@@ -122,6 +122,8 @@ ActsExamples::ProcessCode ActsExamples::CKFPerformanceWriter::writeT(
       // Reco track selection
       //@TODO: add interface for applying others cuts on reco tracks:
       // -> pT, d0, z0, detector-specific hits/holes number cut
+      //ACTS_INFO("For trackTip = " << trackTip);
+      //ACTS_INFO("m_cfg.nMeasurementsMin = " << m_cfg.nMeasurementsMin);
       if (trajState.nMeasurements < m_cfg.nMeasurementsMin) {
         continue;
       }
@@ -136,6 +138,7 @@ ActsExamples::ProcessCode ActsExamples::CKFPerformanceWriter::writeT(
       // Requirement on the pT of the track
       const auto& momentum = fittedParameters.momentum();
       const auto pT = perp(momentum);
+      //ACTS_INFO("m_cfg.ptMin = " << m_cfg.ptMin);
       if (pT < m_cfg.ptMin) {
         continue;
       }
@@ -165,6 +168,11 @@ ActsExamples::ProcessCode ActsExamples::CKFPerformanceWriter::writeT(
       // Check if the trajectory is matched with truth.
       // If not, it will be classified as 'fake'
       bool isFake = false;
+      //ACTS_INFO("nMajorityHits = " << nMajorityHits);
+      //ACTS_INFO("trajState.nMeasurements = " << trajState.nMeasurements);
+      //ACTS_INFO("m_cfg.truthMatchProbMin = " << m_cfg.truthMatchProbMin);
+      //ACTS_INFO("nMajorityHits * 1. / trajState.nMeasurements = "
+      //          << nMajorityHits * 1. / trajState.nMeasurements);
       if (nMajorityHits * 1. / trajState.nMeasurements >=
           m_cfg.truthMatchProbMin) {
         matched[majorityParticleId].push_back(

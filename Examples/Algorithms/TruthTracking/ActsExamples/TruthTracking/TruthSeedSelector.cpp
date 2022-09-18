@@ -100,6 +100,8 @@ ProcessCode TruthSeedSelector::execute(const AlgorithmContext& ctx) const {
   SimParticleContainer selectedParticles;
   selectedParticles.reserve(inputParticles.size());
 
+  //ACTS_INFO("m_cfg.nHitsMin in TruthSeedSelector = " << m_cfg.nHitsMin);
+
   auto within = [](double x, double min, double max) {
     return (min <= x) and (x < max);
   };
