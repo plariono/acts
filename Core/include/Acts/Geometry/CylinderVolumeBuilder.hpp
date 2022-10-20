@@ -491,8 +491,8 @@ class CylinderVolumeBuilder : public ITrackingVolumeBuilder {
     std::shared_ptr<const IConfinedTrackingVolumeBuilder> ctVolumeBuilder =
         nullptr;
     /// Additional envelope in R to create rMin, rMax
-    std::pair<double, double> layerEnvelopeR = {1. * UnitConstants::mm,
-                                                1. * UnitConstants::mm};
+    std::pair<double, double> layerEnvelopeR = {0.1 * UnitConstants::mm,
+                                                0.1 * UnitConstants::mm};
     /// the additional envelope in Z to create zMin, zMax
     double layerEnvelopeZ = 1. * UnitConstants::mm;
 
