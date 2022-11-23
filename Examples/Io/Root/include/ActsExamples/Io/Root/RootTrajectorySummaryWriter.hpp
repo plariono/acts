@@ -12,6 +12,7 @@
 #include "ActsExamples/EventData/Trajectories.hpp"
 #include "ActsExamples/Framework/WriterT.hpp"
 
+#include <array>
 #include <mutex>
 #include <vector>
 
@@ -134,6 +135,20 @@ class RootTrajectorySummaryWriter final
   std::vector<float> m_eTHETA_fit;  ///< Fitted parameters eTHETA of track
   std::vector<float> m_eQOP_fit;    ///< Fitted parameters eQOP of track
   std::vector<float> m_eT_fit;      ///< Fitted parameters eT of track
+  // The non-diagonal covariances
+  std::vector<float>
+      m_eLOC0_eLOC1_fit;  ///< Fitted eBoundLoc0 eBoundLoc1 covariance
+  std::vector<float> m_eLOC0_ePHI_fit;  ///< Fitted eBoundLoc0 ePHI covariance
+  std::vector<float>
+      m_eLOC0_eTHETA_fit;               ///< Fitted eBoundLoc0 eTHETA covariance
+  std::vector<float> m_eLOC0_eQOP_fit;  ///< Fitted eBoundLoc0 eQOP covariance
+  std::vector<float> m_eLOC1_ePHI_fit;  ///< Fitted eBoundLoc1 ePHI covariance
+  std::vector<float>
+      m_eLOC1_eTHETA_fit;               ///< Fitted eBoundLoc1 eTHETA covariance
+  std::vector<float> m_eLOC1_eQOP_fit;  ///< Fitted eBoundLoc1 eQOP covariance
+  std::vector<float> m_ePHI_eTHETA_fit;  ///< Fitted ePHI eTHETA covariance
+  std::vector<float> m_ePHI_eQOP_fit;    ///< Fitted ePHI eQOP covariance
+  std::vector<float> m_eTHETA_eQOP_fit;  ///< Fitted eTHETA eQOP covariance
   // The error of fitted parameters
   std::vector<float> m_err_eLOC0_fit;  ///< Fitted parameters eLOC err of track
   std::vector<float>
