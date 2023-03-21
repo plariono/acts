@@ -82,6 +82,8 @@ std::vector<Acts::TGeoLayerBuilder::Config> makeLayerBuilderConfigs(
       lConfig.volumeName = volume.subVolumeName.at(ncp);
       lConfig.sensorNames = volume.sensitiveNames.at(ncp);
       lConfig.localAxes = volume.sensitiveAxes.at(ncp);
+      lConfig.envelope = {0.01 * Acts::UnitConstants::mm,
+                          0.01 * Acts::UnitConstants::mm};
 
       auto rR = volume.rRange.at(ncp);
       auto rMin = rR.lower.value_or(0.);
@@ -202,8 +204,8 @@ std::shared_ptr<const Acts::TrackingGeometry> buildTGeoDetector(
     bpvConfig.trackingVolumeHelper = cylinderVolumeHelper;
     bpvConfig.volumeName = "BeamPipe";
     bpvConfig.layerBuilder = beamPipeBuilder;
-    bpvConfig.layerEnvelopeR = {1. * Acts::UnitConstants::mm,
-                                1. * Acts::UnitConstants::mm};
+    bpvConfig.layerEnvelopeR = {0.01 * Acts::UnitConstants::mm,
+                                0.01 * Acts::UnitConstants::mm};
     bpvConfig.buildToRadiusZero = true;
     auto beamPipeVolumeBuilder =
         std::make_shared<const Acts::CylinderVolumeBuilder>(
