@@ -104,6 +104,15 @@ void fillEff(TEfficiency* efficiency, float value, bool status);
 /// @param status bool to denote passed or not
 void fillEff(TEfficiency* efficiency, float xValue, float yValue, bool status);
 
+/// @brief fill a 3D efficiency plot
+/// @param efficiency plot to fill
+/// @param xValue x value to fill
+/// @param yValue y value to fill
+/// @param zValue z value to fill
+/// @param status bool to denote passed or not
+void fillEff(TEfficiency* efficiency, float xValue, float yValue, float zValue,
+             bool status);
+
 /// @brief book a TProfile plot
 /// @param profName the name of plot
 /// @param profTitle the title of plot

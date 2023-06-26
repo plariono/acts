@@ -36,6 +36,8 @@ class EffPlotTool {
     TEfficiency* trackEff_vs_pT{nullptr};   ///< Tracking efficiency vs pT
     TEfficiency* trackEff_vs_eta{nullptr};  ///< Tracking efficiency vs eta
     TEfficiency* trackEff_vs_phi{nullptr};  ///< Tracking efficiency vs phi
+    TEfficiency* trackEff_vs_mult_eta_pt{
+        nullptr};  ///< Tracking efficiency vs mult, eta, pt
   };
 
   /// Constructor
@@ -56,6 +58,15 @@ class EffPlotTool {
   /// @param status the reconstruction status
   void fill(EffPlotCache& effPlotCache,
             const ActsFatras::Particle& truthParticle, bool status) const;
+
+  /// @brief fill efficiency plots
+  ///
+  /// @param effPlotCache cache object for efficiency plots
+  /// @param truthParticle the truth Particle
+  /// @param status the reconstruction status
+  void fill(EffPlotCache& effPlotCache,
+            const ActsFatras::Particle& truthParticle,
+            const float& eventMultLog, bool status) const;
 
   /// @brief write the efficiency plots to file
   ///

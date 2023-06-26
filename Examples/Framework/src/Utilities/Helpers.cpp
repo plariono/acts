@@ -83,6 +83,12 @@ void fillEff(TEfficiency* efficiency, float xValue, float yValue, bool status) {
   efficiency->Fill(status, xValue, yValue);
 }
 
+void fillEff(TEfficiency* efficiency, float xValue, float yValue, float zValue,
+             bool status) {
+  assert(efficiency != nullptr);
+  efficiency->Fill(status, xValue, yValue, zValue);
+}
+
 TProfile* bookProf(const char* profName, const char* profTitle,
                    const Binning& varXBinning, const Binning& varYBinning) {
   TProfile* prof =

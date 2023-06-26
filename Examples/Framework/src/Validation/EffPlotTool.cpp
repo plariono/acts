@@ -33,12 +33,19 @@ void ActsExamples::EffPlotTool::book(
   // efficiency vs phi
   effPlotCache.trackEff_vs_phi = PlotHelpers::bookEff(
       "trackeff_vs_phi", "Tracking efficiency;Truth #phi;Efficiency", bPhi);
+  // 3D efficiency in multiplicity, eta, pT
+  effPlotCache.trackEff_vs_mult_eta_pt =
+      new TEfficiency("trackeff_vs_mult_eta_pt",
+                      "Tracking efficiency;Multiplicity;Truth #it{p}_{T} "
+                      "[GeV/#it{c}];#it{#eta};Efficiency",
+                      20, 0.5, 3.5, 80, -4., 4., 200, -2., 2.);
 }
 
 void ActsExamples::EffPlotTool::clear(EffPlotCache& effPlotCache) const {
   delete effPlotCache.trackEff_vs_pT;
   delete effPlotCache.trackEff_vs_eta;
   delete effPlotCache.trackEff_vs_phi;
+  delete effPlotCache.trackEff_vs_mult_eta_pt;
 }
 
 void ActsExamples::EffPlotTool::write(
@@ -47,6 +54,7 @@ void ActsExamples::EffPlotTool::write(
   effPlotCache.trackEff_vs_pT->Write();
   effPlotCache.trackEff_vs_eta->Write();
   effPlotCache.trackEff_vs_phi->Write();
+  effPlotCache.trackEff_vs_mult_eta_pt->Write();
 }
 
 void ActsExamples::EffPlotTool::fill(EffPlotTool::EffPlotCache& effPlotCache,
@@ -59,4 +67,16 @@ void ActsExamples::EffPlotTool::fill(EffPlotTool::EffPlotCache& effPlotCache,
   PlotHelpers::fillEff(effPlotCache.trackEff_vs_pT, t_pT, status);
   PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta, t_eta, status);
   PlotHelpers::fillEff(effPlotCache.trackEff_vs_phi, t_phi, status);
+}
+
+void ActsExamples::EffPlotTool::fill(EffPlotTool::EffPlotCache& effPlotCache,
+                                     const ActsFatras::Particle& truthParticle,
+                                     const float& eventMultLog,
+                                     bool status) const {
+  const auto t_eta = eta(truthParticle.unitDirection());
+  const auto t_pT = truthParticle.transverseMomentum();
+  const auto t_pT_Log = std::log10(t_pT);
+
+  PlotHelpers::fillEff(effPlotCache.trackEff_vs_mult_eta_pt, eventMultLog,
+                       t_eta, t_pT_Log, status);
 }

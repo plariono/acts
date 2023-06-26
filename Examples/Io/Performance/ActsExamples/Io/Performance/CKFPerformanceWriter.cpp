@@ -131,6 +131,11 @@ ActsExamples::ProcessCode ActsExamples::CKFPerformanceWriter::writeT(
   const auto& hitParticlesMap =
       ctx.eventStore.get<HitParticlesMap>(m_cfg.inputMeasurementParticlesMap);
 
+  // Get the event number
+  const auto eventNr = ctx.eventNumber;
+  // Get the event multiplicity
+  const auto eventMultLog = std::log10(particles.size());
+
   // Counter of truth-matched reco tracks
   std::map<ActsFatras::Barcode, std::vector<RecoTrackInfo>> matched;
   // Counter of truth-unmatched reco tracks
@@ -291,6 +296,7 @@ ActsExamples::ProcessCode ActsExamples::CKFPerformanceWriter::writeT(
       isReconstructed = true;
     }
     // Fill efficiency plots
+    m_effPlotTool.fill(m_effPlotCache, particle, eventMultLog, isReconstructed);
     m_effPlotTool.fill(m_effPlotCache, particle, isReconstructed);
     // Fill number of duplicated tracks for this particle
     m_duplicationPlotTool.fill(m_duplicationPlotCache, particle,
