@@ -51,12 +51,15 @@ ActsExamples::ParametricParticleGenerator::operator()(RandomEngine& rng) {
   UniformReal cosThetaDist(m_cosThetaMin, m_cosThetaMax);
   UniformReal etaDist(m_etaMin, m_etaMax);
   UniformReal pDist(m_cfg.pMin, m_cfg.pMax);
+  UniformIndex partDist(1, m_cfg.numParticles);
+
+  const unsigned int part = partDist(rng);
 
   SimParticleContainer particles;
-  particles.reserve(m_cfg.numParticles);
+  particles.reserve(part);
 
   // counter will be reused as barcode particle number which must be non-zero.
-  for (size_t ip = 1; ip <= m_cfg.numParticles; ++ip) {
+  for (size_t ip = 1; ip <= part; ++ip) {
     // all particles are treated as originating from the same primary vertex
     const auto pid = ActsFatras::Barcode(0u).setParticle(ip);
 
