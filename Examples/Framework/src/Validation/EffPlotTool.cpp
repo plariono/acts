@@ -28,8 +28,14 @@ void ActsExamples::EffPlotTool::book(
   PlotHelpers::Binning bPt = m_cfg.varBinning.at("Pt");
   ACTS_DEBUG("Initialize the histograms for efficiency plots");
   // efficiency vs pT
-  effPlotCache.trackEff_vs_pT = PlotHelpers::bookEff(
-      "trackeff_vs_pT", "Tracking efficiency;Truth pT [GeV/c];Efficiency", bPt);
+  const int nBinsPt = 24;
+  const double xBinsPt[nBinsPt + 1] = {
+      0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7,
+      0.8,  0.9,  1.,   2.,   3.,   4.,  5.,   6.,  7.,  8.,  9.,  10.};
+  effPlotCache.trackEff_vs_pT = new TEfficiency(
+      "trackeff_vs_pT",
+      "Tracking efficiency;Truth #it{p}_{T} [GeV/#it{c}];Efficiency", nBinsPt,
+      xBinsPt);
   // efficiency vs eta
   effPlotCache.trackEff_vs_eta = PlotHelpers::bookEff(
       "trackeff_vs_eta", "Tracking efficiency;Truth #eta;Efficiency", bEta);
