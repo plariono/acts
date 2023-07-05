@@ -81,6 +81,8 @@ struct ActsExamples::TrackFinderPerformanceWriter::Impl {
   float prtM = 0;
   // particle charge in e
   float prtQ = 0;
+  // particle eta
+  float prtEta;
   // particle reconstruction
   UShort_t prtNumHits = 0;  // number of hits for this particle
   UShort_t prtNumTracks =
@@ -144,6 +146,7 @@ struct ActsExamples::TrackFinderPerformanceWriter::Impl {
     prtTree->Branch("pz", &prtPz);
     prtTree->Branch("m", &prtM);
     prtTree->Branch("q", &prtQ);
+    prtTree->Branch("eta", &prtEta);
     prtTree->Branch("nhits", &prtNumHits);
     prtTree->Branch("ntracks", &prtNumTracks);
     prtTree->Branch("ntracks_majority", &prtNumTracksMajority);
@@ -231,6 +234,7 @@ struct ActsExamples::TrackFinderPerformanceWriter::Impl {
         prtPz = p * particle.unitDirection().z();
         prtM = particle.mass() / Acts::UnitConstants::GeV;
         prtQ = particle.charge() / Acts::UnitConstants::e;
+        prtEta = Acts::VectorHelpers::eta(particle.unitDirection());p
         // reconstruction
         prtNumHits = hits.size();
         auto nt = reconCount.find(particle.particleId());
