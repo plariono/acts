@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from acts.examples.reconstruction import (
     addSeeding,
     TruthSeedRanges,
@@ -21,31 +22,37 @@ from acts.examples.simulation import (
     ParticleSelectorConfig,
     addDigitization,
 )
+
+from random import *
 import pathlib
 import acts
 import acts.examples
 import alice3
 
-heavyion = True
+heavyion = False
 u = acts.UnitConstants
 geo_dir = pathlib.Path.cwd().parent
 outputDir = pathlib.Path(
-    "/Users/lrnv/alice/tools/acts/acts/bin/output/python/ckf_PbPb_100ev_ptmin500MeV_seedconfset2_nobin_etawriter_paramsckfv13_cfg10")
+    "/Users/lrnvmbp14/alice/test/acts/bin/output/python/ckf_gun_13_Bfield2_mult80_ptmin500MeV_noseedconf_nobin_noinfl_etawriter_paramsckfv13_cfg10")
 
 detector, trackingGeometry, decorators = alice3.buildALICE3Geometry(
     geo_dir, True, False)
 field = acts.ConstantBField(acts.Vector3(0.0, 0.0, 2.0 * u.T))
 rnd = acts.examples.RandomNumbers(seed=42)
 
+# mult = randint(1, 30)
+# print('Set multiplicity is ')
+# print(mult)
 
-s = acts.examples.Sequencer(events=100, numThreads=-1)
+s = acts.examples.Sequencer(events=1000, numThreads=-1)
 
 if not heavyion:
     addParticleGun(
         s,
-        MomentumConfig(0.5 * u.GeV, 10.0 * u.GeV, transverse=True),
+        MomentumConfig(0.5 * u.GeV, 100.0 * u.GeV, transverse=True),
         EtaConfig(-4.0, 4.0, uniform=True),
-        ParticleConfig(1, acts.PdgParticle.eMuon, randomizeCharge=True),
+        ParticleConfig(80, acts.PdgParticle.eMuon, randomizeCharge=True),
+        # multiplicity=mult,
         rnd=rnd,
     )
 else:
@@ -69,7 +76,7 @@ s = addFatras(
     trackingGeometry,
     field,
     ParticleSelectorConfig(
-        eta=(0.0, 4.0), pt=(500 * u.MeV, None), removeNeutral=False),
+        eta=(-4.0, 4.0), pt=(500 * u.MeV, None), removeNeutral=False),
     outputDirRoot=outputDir,
     rnd=rnd,
 )
@@ -85,7 +92,7 @@ s = addSeeding(
     s,
     trackingGeometry,
     field,
-    TruthSeedRanges(pt=(0.5 * u.GeV, None), eta=(0, 4.0), nHits=(7, None)),
+    TruthSeedRanges(pt=(0.5 * u.GeV, None), eta=(-4.0, 4.0), nHits=(7, None)),
     SeedfinderConfigArg(
         r=(None, 200 * u.mm),
         deltaR=(1. * u.mm, 60 * u.mm),
@@ -98,7 +105,7 @@ s = addSeeding(
         bFieldInZ=1.99724 * u.T,
         impactMax=3. * u.mm,
         cotThetaMax=27.2899,
-        seedConfirmation=True,
+        seedConfirmation=False,
         centralSeedConfirmationRange=acts.SeedConfirmationRangeConfig(
             zMinSeedConf=-620 * u.mm,
             zMaxSeedConf=620 * u.mm,
@@ -115,12 +122,12 @@ s = addSeeding(
         ),
         skipPreviousTopSP=True,
         useVariableMiddleSPRange=True,
-        #deltaRMiddleMinSPRange=10 * u.mm,
-        #deltaRMiddleMaxSPRange=10 * u.mm,
+        # deltaRMiddleMinSPRange=10 * u.mm,
+        # deltaRMiddleMaxSPRange=10 * u.mm,
         deltaRMiddleSPRange=(1 * u.mm, 10 * u.mm),
     ),
     SeedFilterConfigArg(
-        seedConfirmation=True,
+        seedConfirmation=False,
         maxSeedsPerSpMConf=5,
         maxQualitySeedsPerSpMConf=5,
     ),
@@ -180,6 +187,7 @@ s = addSeeding(
     geoSelectionConfigFile=geo_dir /
     "acts/bin/geoSelection-alice3-cfg10.json",
     outputDirRoot=outputDir,
+    # initialVarInflation=[100, 100, 100, 100, 100, 100],
 )
 s = addCKFTracks(
     s,

@@ -138,7 +138,7 @@ def buildALICE3Geometry(
         mdecorator=matDeco,
         buildBeamPipe=True,
         unitScalor=10.0,  # explicit units
-        beamPipeRadius=4.5 * u.mm,
+        beamPipeRadius=3.7 * u.mm,
         beamPipeHalflengthZ=500.0 * u.mm,
         beamPipeLayerThickness=0.1 * u.mm,
         surfaceLogLevel=logLevel,
