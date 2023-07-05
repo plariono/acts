@@ -234,7 +234,7 @@ struct ActsExamples::TrackFinderPerformanceWriter::Impl {
         prtPz = p * particle.unitDirection().z();
         prtM = particle.mass() / Acts::UnitConstants::GeV;
         prtQ = particle.charge() / Acts::UnitConstants::e;
-        prtEta = Acts::VectorHelpers::eta(particle.unitDirection());p
+        prtEta = Acts::VectorHelpers::eta(particle.unitDirection());
         // reconstruction
         prtNumHits = hits.size();
         auto nt = reconCount.find(particle.particleId());
