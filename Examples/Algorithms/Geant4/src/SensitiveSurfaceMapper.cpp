@@ -71,11 +71,14 @@ void ActsExamples::SensitiveSurfaceMapper::remapSensitiveNames(
 
   std::string volumeName = g4LogicalVolume->GetName();
   std::string volumeMaterialName = g4LogicalVolume->GetMaterial()->GetName();
+
   if (g4SensitiveDetector == nullptr or
       std::find(m_cfg.materialMappings.begin(), m_cfg.materialMappings.end(),
                 volumeMaterialName) != m_cfg.materialMappings.end() or
       std::find(m_cfg.volumeMappings.begin(), m_cfg.volumeMappings.end(),
                 volumeName) != m_cfg.volumeMappings.end()) {
+    std::cout << "volumeMaterialName " << volumeMaterialName << std::endl;
+
     // Find the associated ACTS object
     auto actsLayer = m_cfg.trackingGeometry->associatedLayer(
         Acts::GeometryContext(), g4AbsPosition);
@@ -104,6 +107,9 @@ void ActsExamples::SensitiveSurfaceMapper::remapSensitiveNames(
         }
       }
     }
+
+    std::cout << actsLayer << " " << mappedSurface << std::endl;
+
     // A mapped surface was found, a new name will be set that
     // contains the GeometryID/
     if (mappedSurface != nullptr) {

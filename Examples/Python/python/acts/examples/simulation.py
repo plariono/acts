@@ -263,7 +263,8 @@ def addPythia8(
     if npileup > 0:
         generators.append(
             acts.examples.EventGenerator.Generator(
-                multiplicity=acts.examples.FixedMultiplicityGenerator(n=npileup),
+                multiplicity=acts.examples.FixedMultiplicityGenerator(
+                    n=npileup),
                 vertex=vtxGen,
                 particles=acts.examples.pythia8.Pythia8Generator(
                     level=customLogLevel(),
@@ -384,7 +385,8 @@ def addFatras(
     trackingGeometry: acts.TrackingGeometry,
     field: acts.MagneticFieldProvider,
     rnd: acts.examples.RandomNumbers,
-    preSelectParticles: Optional[ParticleSelectorConfig] = ParticleSelectorConfig(),
+    preSelectParticles: Optional[ParticleSelectorConfig] = ParticleSelectorConfig(
+    ),
     postSelectParticles: Optional[ParticleSelectorConfig] = None,
     enableInteractions: bool = False,
     pMin: Optional[float] = None,
@@ -580,7 +582,17 @@ def getG4DetectorConstructionFactory(
     except Exception as e:
         print(e)
 
-    raise AttributeError(f"cannot find a suitable detector construction for {detector}")
+    try:
+        from acts.examples import TGeoDetector
+        from acts.examples.geant4 import GdmlDetectorConstructionFactory
+
+        if type(detector) is TGeoDetector:
+            return GdmlDetectorConstructionFactory(detector)
+    except Exception as e:
+        print(e)
+
+    raise AttributeError(
+        f"cannot find a suitable detector construction for {detector}")
 
 
 # holds the Geant4Handle for potential reuse
@@ -597,7 +609,8 @@ def addGeant4(
     volumeMappings: List[str] = [],
     materialMappings: List[str] = [],
     inputParticles: str = "particles_input",
-    preSelectParticles: Optional[ParticleSelectorConfig] = ParticleSelectorConfig(),
+    preSelectParticles: Optional[ParticleSelectorConfig] = ParticleSelectorConfig(
+    ),
     postSelectParticles: Optional[ParticleSelectorConfig] = None,
     recordHitsOfSecondaries=True,
     keepParticlesWithoutHits=True,
@@ -653,7 +666,8 @@ def addGeant4(
     if g4DetectorConstructionFactory is None:
         if detector is None:
             raise AttributeError("detector not given")
-        g4DetectorConstructionFactory = getG4DetectorConstructionFactory(detector)
+        g4DetectorConstructionFactory = getG4DetectorConstructionFactory(
+            detector)
 
     global __geant4Handle
 
@@ -788,11 +802,13 @@ def addDigitization(
             inputClusters=digiAlg.config.outputClusters,
             inputSimHits=digiAlg.config.inputSimHits,
             inputMeasurementSimHitsMap=digiAlg.config.outputMeasurementSimHitsMap,
-            filePath=str(outputDirRoot / f"{digiAlg.config.outputMeasurements}.root"),
+            filePath=str(outputDirRoot /
+                         f"{digiAlg.config.outputMeasurements}.root"),
             trackingGeometry=trackingGeometry,
         )
         rmwConfig.addBoundIndicesFromDigiConfig(digiAlg.config)
-        s.addWriter(acts.examples.RootMeasurementWriter(rmwConfig, customLogLevel()))
+        s.addWriter(acts.examples.RootMeasurementWriter(
+            rmwConfig, customLogLevel()))
 
     if outputDirCsv is not None:
         outputDirCsv = Path(outputDirCsv)
