@@ -88,14 +88,14 @@ namespace {
 // moment.
 // @TODO: Remove this, unneeded after #675
 struct FatrasSimulationT final : ActsExamples::detail::FatrasSimulation {
-  using CutPMin = ActsFatras::Min<ActsFatras::Casts::P>;
+  using CutPtMin = ActsFatras::Min<ActsFatras::Casts::Pt>;
 
   // typedefs for charge particle simulation
   // propagate charged particles numerically in the given magnetic field
   using ChargedStepper = Acts::EigenStepper<>;
   using ChargedPropagator = Acts::Propagator<ChargedStepper, Acts::Navigator>;
   // charged particles w/ standard em physics list and selectable hits
-  using ChargedSelector = CutPMin;
+  using ChargedSelector = CutPtMin;
   using ChargedSimulation = ActsFatras::SingleParticleSimulation<
       ChargedPropagator, ActsFatras::StandardChargedElectroMagneticInteractions,
       HitSurfaceSelector, ActsFatras::NoDecay>;
@@ -105,7 +105,7 @@ struct FatrasSimulationT final : ActsExamples::detail::FatrasSimulation {
   using NeutralStepper = Acts::StraightLineStepper;
   using NeutralPropagator = Acts::Propagator<NeutralStepper, Acts::Navigator>;
   // neutral particles w/ photon conversion and no hits
-  using NeutralSelector = CutPMin;
+  using NeutralSelector = CutPtMin;
   using NeutralInteractions =
       ActsFatras::InteractionList<ActsFatras::PhotonConversion>;
   using NeutralSimulation = ActsFatras::SingleParticleSimulation<
@@ -134,10 +134,10 @@ struct FatrasSimulationT final : ActsExamples::detail::FatrasSimulation {
     // apply the configuration
 
     // minimal p cut on input particles and as is-alive check for interactions
-    simulation.selectCharged.valMin = cfg.pMin;
-    simulation.selectNeutral.valMin = cfg.pMin;
+    simulation.selectCharged.valMin = cfg.ptMin;
+    simulation.selectNeutral.valMin = cfg.ptMin;
     simulation.charged.interactions =
-        makeStandardChargedElectroMagneticInteractions(cfg.pMin);
+        makeStandardChargedElectroMagneticInteractions(cfg.ptMin);
 
     // processes are enabled by default
     if (not cfg.emScattering) {

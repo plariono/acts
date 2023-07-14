@@ -389,7 +389,7 @@ def addFatras(
     preSelectParticles: Optional[ParticleSelectorConfig] = ParticleSelectorConfig(),
     postSelectParticles: Optional[ParticleSelectorConfig] = None,
     enableInteractions: bool = False,
-    pMin: Optional[float] = None,
+    ptMin: Optional[float] = None,
     inputParticles: str = "particles_input",
     outputParticlesInitial: str = "particles_initial",
     outputParticlesFinal: str = "particles_final",
@@ -452,7 +452,7 @@ def addFatras(
             emEnergyLossIonisation=enableInteractions,
             emEnergyLossRadiation=enableInteractions,
             emPhotonConversion=enableInteractions,
-            pMin=pMin,
+            ptMin=ptMin,
         )
     )
 

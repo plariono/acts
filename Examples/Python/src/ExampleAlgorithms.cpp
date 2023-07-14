@@ -38,7 +38,7 @@ void addExampleAlgorithms(Context& ctx) {
       ActsExamples::FatrasSimulation, mex, "FatrasSimulation", inputParticles,
       outputParticlesInitial, outputParticlesFinal, outputSimHits,
       imputParametrisationNuclearInteraction, randomNumbers, trackingGeometry,
-      magneticField, pMin, emScattering, emEnergyLossIonisation,
+      magneticField, ptMin, emScattering, emEnergyLossIonisation,
       emEnergyLossRadiation, emPhotonConversion, generateHitsOnSensitive,
       generateHitsOnMaterial, generateHitsOnPassive, averageHitsPerParticle);
 
