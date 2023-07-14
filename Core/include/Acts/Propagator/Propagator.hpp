@@ -84,7 +84,7 @@ struct PropagatorPlainOptions {
 
   /// Loop protection step, it adapts the pathLimit
   bool loopProtection = true;
-  double loopFraction = 0.5;  ///< Allowed loop fraction, 1 is a full loop
+  double loopFraction = 0.9;  ///< Allowed loop fraction, 1 is a full loop
 
   // Configurations for Stepper
   /// Tolerance for the error of the integration
