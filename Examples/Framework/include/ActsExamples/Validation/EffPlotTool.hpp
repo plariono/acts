@@ -31,7 +31,7 @@ class EffPlotTool {
   /// @brief The nested configuration struct
   struct Config {
     std::map<std::string, PlotHelpers::Binning> varBinning = {
-        {"Eta", PlotHelpers::Binning("#eta", 40, -4, 4)},
+        {"Eta", PlotHelpers::Binning("#eta", 40, -4., 4.)},
         {"Phi", PlotHelpers::Binning("#phi", 100, -3.15, 3.15)},
         {"Pt", PlotHelpers::Binning("pT [GeV/c]", 40, 0, 100)}};
   };
@@ -41,6 +41,22 @@ class EffPlotTool {
     TEfficiency* trackEff_vs_pT{nullptr};   ///< Tracking efficiency vs pT
     TEfficiency* trackEff_vs_eta{nullptr};  ///< Tracking efficiency vs eta
     TEfficiency* trackEff_vs_phi{nullptr};  ///< Tracking efficiency vs phi
+
+    TEfficiency* trackEff_vs_pT_eta0{
+        nullptr};  ///< Tracking efficiencies vs pT at fixed eta
+    TEfficiency* trackEff_vs_pT_eta22{nullptr};  ///<
+    TEfficiency* trackEff_vs_pT_eta36{nullptr};  ///<
+
+    TEfficiency* trackEff_vs_pT_IrisL0hit{
+        nullptr};  ///< Tracking efficiency vs pT + hit in the
+                   ///< IRIS L0
+    TEfficiency* trackEff_vs_eta_IrisL0hit{
+        nullptr};  ///< Tracking efficiency vs eta + hit in
+                   ///< the IRIS L0
+    TEfficiency* trackEff_vs_phi_IrisL0hit{
+        nullptr};  ///< Tracking efficiency vs phi + hit in
+                   ///< the IRIS L0
+
     TEfficiency* trackEff_vs_mult_eta_pt{
         nullptr};  ///< Tracking efficiency vs mult, eta, pt
   };
@@ -64,14 +80,23 @@ class EffPlotTool {
   void fill(EffPlotCache& effPlotCache,
             const ActsFatras::Particle& truthParticle, bool status) const;
 
+  /// @brief fill efficiency plots + hit in IRIS L0
+  ///
+  /// @param effPlotCache cache object for efficiency plots
+  /// @param truthParticle the truth Particle
+  /// @param status the reconstruction status
+  void fillEffIrisHit(EffPlotCache& effPlotCache,
+                      const ActsFatras::Particle& truthParticle,
+                      bool status) const;
+
   /// @brief fill efficiency plots
   ///
   /// @param effPlotCache cache object for efficiency plots
   /// @param truthParticle the truth Particle
   /// @param status the reconstruction status
-  void fill(EffPlotCache& effPlotCache,
-            const ActsFatras::Particle& truthParticle,
-            const float& eventMultLog, bool status) const;
+  void fill3DEff(EffPlotCache& effPlotCache,
+                 const ActsFatras::Particle& truthParticle,
+                 const float& eventMultLog, bool status) const;
 
   /// @brief write the efficiency plots to file
   ///
