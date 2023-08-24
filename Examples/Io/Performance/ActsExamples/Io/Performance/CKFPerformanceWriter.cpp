@@ -33,6 +33,19 @@ namespace ActsExamples {
 struct AlgorithmContext;
 }  // namespace ActsExamples
 
+template <typename T>
+std::vector<int> findItems(std::vector<T> const& v, int target) {
+  std::vector<int> indices;
+  auto it = v.begin();
+  while ((it = std::find_if(it, v.end(), [&](T const& e) {
+            return e == target;
+          })) != v.end()) {
+    indices.push_back(std::distance(v.begin(), it));
+    it++;
+  }
+  return indices;
+}
+
 ActsExamples::CKFPerformanceWriter::CKFPerformanceWriter(
     ActsExamples::CKFPerformanceWriter::Config cfg, Acts::Logging::Level lvl)
     : WriterT(cfg.inputTrajectories, "CKFPerformanceWriter", lvl),
@@ -143,8 +156,16 @@ ActsExamples::ProcessCode ActsExamples::CKFPerformanceWriter::writeT(
   const auto& particles = m_inputParticles(ctx);
   const auto& hitParticlesMap = m_inputMeasurementParticlesMap(ctx);
 
+  // Get the event number
+  const auto eventNr = ctx.eventNumber;
+  // Get the event multiplicity
+  const auto eventMultLog = std::log10(particles.size());
+
   // Counter of truth-matched reco tracks
   std::map<ActsFatras::Barcode, std::vector<RecoTrackInfo>> matched;
+  // Counter of truth-matched reco tracks with a condition of a hit in L0
+  const unsigned int kInnerBarrelVolume = 13;
+  std::map<ActsFatras::Barcode, std::vector<RecoTrackInfo>> matchedIrisL0hit;
   // Counter of truth-unmatched reco tracks
   std::map<ActsFatras::Barcode, size_t> unmatched;
   // For each particle within a track, how many hits did it contribute
@@ -196,6 +217,36 @@ ActsExamples::ProcessCode ActsExamples::CKFPerformanceWriter::writeT(
           particleHitCounts.front().particleId;
       size_t nMajorityHits = particleHitCounts.front().hitCount;
 
+      // Get the volume id and the layer id information
+      auto volumes = trajState.measurementVolume;
+      bool containsIrisVol = false;
+      bool containsIrisL0 = false;
+
+      //std::cout << "\nFor the trackTip #" << trackTip
+      //          << " the volume vector indexes are:\n";
+      // for (auto& volInd : volumes)
+      //   std::cout << volInd << std::endl;
+
+      if (std::count(volumes.begin(), volumes.end(), kInnerBarrelVolume) != 0) {
+        containsIrisVol = true;
+
+        // Get the indexes of the desired volume
+        auto kVolumeIndexes = findItems(volumes, kInnerBarrelVolume);
+
+        // Get the layer vector and its indexes
+        auto layers = trajState.measurementLayer;
+        std::vector<int> kLayerIndexes;
+
+        for (auto& ind : kVolumeIndexes) {
+          kLayerIndexes.push_back(layers.at(ind));
+        }
+
+        if (std::find(kLayerIndexes.begin(), kLayerIndexes.end(), 2) !=
+            kLayerIndexes.end()) {
+          containsIrisL0 = true;
+        }
+      }
+
       // Check if the trajectory is matched with truth.
       // If not, it will be classified as 'fake'
       bool isFake = false;
@@ -203,6 +254,9 @@ ActsExamples::ProcessCode ActsExamples::CKFPerformanceWriter::writeT(
           m_cfg.truthMatchProbMin) {
         matched[majorityParticleId].push_back(
             {nMajorityHits, fittedParameters});
+        if (containsIrisVol && containsIrisL0)
+          matchedIrisL0hit[majorityParticleId].push_back(
+              {nMajorityHits, fittedParameters});
       } else {
         isFake = true;
         unmatched[majorityParticleId]++;
@@ -279,8 +333,19 @@ ActsExamples::ProcessCode ActsExamples::CKFPerformanceWriter::writeT(
       }
       isReconstructed = true;
     }
+
+    bool isReconstructedIrisL0hit = false;
+    auto imatchedIrisL0hit = matchedIrisL0hit.find(particleId);
+    if (imatchedIrisL0hit != matchedIrisL0hit.end()) {
+      isReconstructedIrisL0hit = true;
+    }
+
     // Fill efficiency plots
+    m_effPlotTool.fill3DEff(m_effPlotCache, particle, eventMultLog,
+                            isReconstructed);
     m_effPlotTool.fill(m_effPlotCache, particle, isReconstructed);
+    m_effPlotTool.fillEffIrisHit(m_effPlotCache, particle,
+                                 isReconstructedIrisL0hit);
     // Fill number of duplicated tracks for this particle
     m_duplicationPlotTool.fill(m_duplicationPlotCache, particle,
                                nMatchedTracks - 1);

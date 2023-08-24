@@ -24,7 +24,7 @@ void addFatrasOptions(Options::Description& desc) {
   using boost::program_options::value;
 
   auto opt = desc.add_options();
-  opt("fatras-pmin-gev", value<double>()->default_value(0.5),
+  opt("fatras-ptmin-gev", value<double>()->default_value(0.5),
       "Minimum momentum for simulated particles in GeV");
   opt("fatras-em-scattering", value<bool>()->default_value(true),
       "Simulate multiple scattering of charged particles");
@@ -47,7 +47,7 @@ ActsExamples::FatrasSimulation::Config readFatrasConfig(
 
   ActsExamples::FatrasSimulation::Config cfg;
 
-  cfg.pMin = vars["fatras-pmin-gev"].as<double>() * 1_GeV;
+  cfg.ptMin = vars["fatras-ptmin-gev"].as<double>() * 1_GeV;
 
   cfg.emScattering = vars["fatras-em-scattering"].as<bool>();
   cfg.emEnergyLossIonisation = vars["fatras-em-ionisation"].as<bool>();

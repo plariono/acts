@@ -26,10 +26,18 @@ enum PdgParticle : int32_t {
   ePionZero = 111,
   ePionPlus = 211,
   ePionMinus = -ePionPlus,
+  eKaon = 321,
+  eAntiKaon = -eKaon,
   eNeutron = 2112,
   eAntiNeutron = -eNeutron,
   eProton = 2212,
   eAntiProton = -eProton,
+  eDeuteron = 1000010020,
+  eAntiDeuteron = -eDeuteron,
+  eTriton = 1000010030,
+  eAntiTriton = -eTriton,
+  eHelium3 = 1000020030,
+  eAntiHelium3 = -eHelium3,
   eLead = 1000822080
 };
 

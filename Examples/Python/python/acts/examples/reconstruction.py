@@ -261,7 +261,8 @@ def addSeeding(
         )
         # Run either: truth track finding or seeding
         if seedingAlgorithm == SeedingAlgorithm.TruthEstimated:
-            logger.info("Using truth track finding from space points for seeding")
+            logger.info(
+                "Using truth track finding from space points for seeding")
             seeds = addTruthEstimatedSeeding(
                 s,
                 spacePoints,
@@ -863,7 +864,8 @@ def addKalmanTracks(
         outputTrajectories="kfTrajectories",
     )
     s.addAlgorithm(trackConverter)
-    s.addWhiteboardAlias("trajectories", trackConverter.config.outputTrajectories)
+    s.addWhiteboardAlias(
+        "trajectories", trackConverter.config.outputTrajectories)
 
     return s
 
@@ -895,7 +897,8 @@ def addTruthTrackingGsf(
         inputInitialTrackParameters="estimatedparameters",
         outputTracks="gsf_tracks",
         pickTrack=-1,
-        fit=acts.examples.makeGsfFitterFunction(trackingGeometry, field, **gsfOptions),
+        fit=acts.examples.makeGsfFitterFunction(
+            trackingGeometry, field, **gsfOptions),
         calibrator=acts.examples.makePassThroughCalibrator(),
     )
     s.addAlgorithm(gsfAlg)
@@ -921,6 +924,8 @@ def addCKFTracks(
     outputDirCsv: Optional[Union[Path, str]] = None,
     outputDirRoot: Optional[Union[Path, str]] = None,
     writeTrajectories: bool = True,
+    chi2CutOff=None,
+    numMeasurementsCutOff=None,
     logLevel: Optional[acts.logging.Level] = None,
 ) -> None:
     """This function steers the seeding
@@ -950,7 +955,7 @@ def addCKFTracks(
     trackFinder = acts.examples.TrackFindingAlgorithm(
         level=customLogLevel(),
         measurementSelectorCfg=acts.MeasurementSelector.Config(
-            [(acts.GeometryIdentifier(), ([], [15.0], [10]))]
+            [(acts.GeometryIdentifier(), ([], [chi2CutOff], [numMeasurementsCutOff]))]
         ),
         trackSelectorCfg=acts.TrackSelector.Config(
             **acts.examples.defaultKWArgs(
@@ -990,7 +995,8 @@ def addCKFTracks(
         outputTrajectories="trajectories-from-tracks",
     )
     s.addAlgorithm(trackConverter)
-    s.addWhiteboardAlias("trajectories", trackConverter.config.outputTrajectories)
+    s.addWhiteboardAlias(
+        "trajectories", trackConverter.config.outputTrajectories)
 
     addTrajectoryWriters(
         s,
@@ -1001,7 +1007,7 @@ def addCKFTracks(
         writeStates=writeTrajectories,
         writeSummary=writeTrajectories,
         writeCKFperformance=True,
-        writeFinderPerformance=False,
+        writeFinderPerformance=True,
         writeFitterPerformance=False,
         logLevel=logLevel,
     )
@@ -1075,17 +1081,15 @@ def addTrajectoryWriters(
             s.addWriter(ckfPerfWriter)
 
         if writeFinderPerformance:
-            s.addWriter(
-                acts.examples.TrackFinderPerformanceWriter(
-                    level=acts.logging.INFO,
-                    inputProtoTracks="prototracks",
-                    inputParticles="truth_seeds_selected",
-                    inputMeasurementParticlesMap="measurement_particles_map",
-                    filePath=str(
-                        outputDirRoot / f"performance_track_finder_{name}.root"
-                    ),
-                )
+            trackFinderPerfWriter = acts.examples.TrackFinderPerformanceWriter(
+                level=customLogLevel(),
+                inputProtoTracks="seed-prototracks",
+                inputParticles="truth_seeds_selected",
+                inputMeasurementParticlesMap="measurement_particles_map",
+                filePath=str(
+                    outputDirRoot / f"performance_track_finder_{name}.root"),
             )
+            s.addWriter(trackFinderPerfWriter)
 
         if writeFitterPerformance:
             s.addWriter(
@@ -1228,7 +1232,8 @@ def addExaTrkX(
         gnnConfig["modelPath"] = str(modelDir / "gnn.pt")
         gnnConfig["undirected"] = True
 
-        graphConstructor = acts.examples.TorchMetricLearning(**metricLearningConfig)
+        graphConstructor = acts.examples.TorchMetricLearning(
+            **metricLearningConfig)
         edgeClassifiers = [
             acts.examples.TorchEdgeClassifier(**filterConfig),
             acts.examples.TorchEdgeClassifier(**gnnConfig),
@@ -1239,7 +1244,8 @@ def addExaTrkX(
         filterConfig["modelPath"] = str(modelDir / "filtering.onnx")
         gnnConfig["modelPath"] = str(modelDir / "gnn.onnx")
 
-        graphConstructor = acts.examples.OnnxMetricLearning(**metricLearningConfig)
+        graphConstructor = acts.examples.OnnxMetricLearning(
+            **metricLearningConfig)
         edgeClassifiers = [
             acts.examples.OnnxEdgeClassifier(**filterConfig),
             acts.examples.OnnxEdgeClassifier(**gnnConfig),
@@ -1263,9 +1269,11 @@ def addExaTrkX(
             acts.examples.TrackFinderPerformanceWriter(
                 level=customLogLevel(),
                 inputProtoTracks="protoTracks",
-                inputParticles="particles_initial",  # the original selected particles after digitization
+                # the original selected particles after digitization
+                inputParticles="particles_initial",
                 inputMeasurementParticlesMap="measurement_particles_map",
-                filePath=str(Path(outputDirRoot) / "performance_track_finding.root"),
+                filePath=str(Path(outputDirRoot) / \
+                             "performance_track_finding.root"),
             )
         )
 
@@ -1305,7 +1313,8 @@ def addAmbiguityResolution(
         outputTrajectories="trajectories-from-solved-tracks",
     )
     s.addAlgorithm(trackConverter)
-    s.addWhiteboardAlias("trajectories", trackConverter.config.outputTrajectories)
+    s.addWhiteboardAlias(
+        "trajectories", trackConverter.config.outputTrajectories)
 
     addTrajectoryWriters(
         s,
@@ -1316,7 +1325,7 @@ def addAmbiguityResolution(
         writeStates=writeTrajectories,
         writeSummary=writeTrajectories,
         writeCKFperformance=True,
-        writeFinderPerformance=False,
+        writeFinderPerformance=True,
         writeFitterPerformance=False,
         logLevel=logLevel,
     )
@@ -1357,7 +1366,8 @@ def addAmbiguityResolutionML(
         outputTrajectories="trajectories-from-solved-tracks",
     )
     s.addAlgorithm(trackConverter)
-    s.addWhiteboardAlias("trajectories", trackConverter.config.outputTrajectories)
+    s.addWhiteboardAlias(
+        "trajectories", trackConverter.config.outputTrajectories)
 
     addTrajectoryWriters(
         s,
@@ -1411,7 +1421,8 @@ def addAmbiguityResolutionMLDBScan(
         outputTrajectories="trajectories-from-solved-tracks",
     )
     s.addAlgorithm(trackConverter)
-    s.addWhiteboardAlias("trajectories", trackConverter.config.outputTrajectories)
+    s.addWhiteboardAlias(
+        "trajectories", trackConverter.config.outputTrajectories)
 
     addTrajectoryWriters(
         s,

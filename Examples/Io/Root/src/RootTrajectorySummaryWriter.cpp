@@ -119,6 +119,16 @@ ActsExamples::RootTrajectorySummaryWriter::RootTrajectorySummaryWriter(
     m_outputTree->Branch("eTHETA_fit", &m_eTHETA_fit);
     m_outputTree->Branch("eQOP_fit", &m_eQOP_fit);
     m_outputTree->Branch("eT_fit", &m_eT_fit);
+    m_outputTree->Branch("eLOC0_eLOC1_fit", &m_eLOC0_eLOC1_fit);
+    m_outputTree->Branch("eLOC0_ePHI_fit", &m_eLOC0_ePHI_fit);
+    m_outputTree->Branch("eLOC0_eTHETA_fit", &m_eLOC0_eTHETA_fit);
+    m_outputTree->Branch("eLOC0_eQOP_fit", &m_eLOC0_eQOP_fit);
+    m_outputTree->Branch("eLOC1_ePHI_fit", &m_eLOC1_ePHI_fit);
+    m_outputTree->Branch("eLOC1_eTHETA_fit", &m_eLOC1_eTHETA_fit);
+    m_outputTree->Branch("eLOC1_eQOP_fit", &m_eLOC1_eQOP_fit);
+    m_outputTree->Branch("ePHI_eTHETA_fit", &m_ePHI_eTHETA_fit);
+    m_outputTree->Branch("ePHI_eQOP_fit", &m_ePHI_eQOP_fit);
+    m_outputTree->Branch("eTHETA_eQOP_fit", &m_eTHETA_eQOP_fit);
     m_outputTree->Branch("err_eLOC0_fit", &m_err_eLOC0_fit);
     m_outputTree->Branch("err_eLOC1_fit", &m_err_eLOC1_fit);
     m_outputTree->Branch("err_ePHI_fit", &m_err_ePHI_fit);
@@ -347,6 +357,28 @@ ActsExamples::ProcessCode ActsExamples::RootTrajectorySummaryWriter::writeT(
         if (boundParam.covariance().has_value()) {
           hasFittedCov = true;
           const auto& covariance = *boundParam.covariance();
+
+          m_eLOC0_eLOC1_fit.push_back(
+              covariance(Acts::eBoundLoc0, Acts::eBoundLoc1));
+          m_eLOC0_ePHI_fit.push_back(
+              covariance(Acts::eBoundLoc0, Acts::eBoundPhi));
+          m_eLOC0_eTHETA_fit.push_back(
+              covariance(Acts::eBoundLoc0, Acts::eBoundTheta));
+          m_eLOC0_eQOP_fit.push_back(
+              covariance(Acts::eBoundLoc0, Acts::eBoundQOverP));
+          m_eLOC1_ePHI_fit.push_back(
+              covariance(Acts::eBoundLoc1, Acts::eBoundPhi));
+          m_eLOC1_eTHETA_fit.push_back(
+              covariance(Acts::eBoundLoc1, Acts::eBoundTheta));
+          m_eLOC1_eQOP_fit.push_back(
+              covariance(Acts::eBoundLoc1, Acts::eBoundQOverP));
+          m_ePHI_eTHETA_fit.push_back(
+              covariance(Acts::eBoundPhi, Acts::eBoundTheta));
+          m_ePHI_eQOP_fit.push_back(
+              covariance(Acts::eBoundPhi, Acts::eBoundQOverP));
+          m_eTHETA_eQOP_fit.push_back(
+              covariance(Acts::eBoundTheta, Acts::eBoundQOverP));
+
           for (unsigned int i = 0; i < Acts::eBoundSize; ++i) {
             error[i] = std::sqrt(covariance(i, i));
           }
@@ -464,6 +496,16 @@ ActsExamples::ProcessCode ActsExamples::RootTrajectorySummaryWriter::writeT(
   m_res_eTHETA_fit.clear();
   m_res_eQOP_fit.clear();
   m_res_eT_fit.clear();
+  m_eLOC0_eLOC1_fit.clear();
+  m_eLOC0_ePHI_fit.clear();
+  m_eLOC0_eTHETA_fit.clear();
+  m_eLOC0_eQOP_fit.clear();
+  m_eLOC1_ePHI_fit.clear();
+  m_eLOC1_eTHETA_fit.clear();
+  m_eLOC1_eQOP_fit.clear();
+  m_ePHI_eTHETA_fit.clear();
+  m_ePHI_eQOP_fit.clear();
+  m_eTHETA_eQOP_fit.clear();
   m_pull_eLOC0_fit.clear();
   m_pull_eLOC1_fit.clear();
   m_pull_ePHI_fit.clear();
