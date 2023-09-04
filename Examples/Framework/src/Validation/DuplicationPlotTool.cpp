@@ -34,10 +34,17 @@ void ActsExamples::DuplicationPlotTool::book(
   PlotHelpers::Binning bNum = m_cfg.varBinning.at("Num");
   ACTS_DEBUG("Initialize the histograms for duplication rate plots");
 
+  const int nBinsPtReduced = 28;
+  const double xBinsPtReduced[nBinsPtReduced + 1] = {
+      0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.12, 0.14, 0.16, 0.18,
+      0.2,  0.25, 0.3,  0.4,  0.5,  0.6, 0.7,  0.8,  0.9,  1.,
+      2.,   3.,   4.,   5.,   6.,   7.,  8.,   9.,   10.};
+
   // duplication rate vs pT
-  duplicationPlotCache.duplicationRate_vs_pT =
-      PlotHelpers::bookEff("duplicationRate_vs_pT",
-                           "Duplication rate;pT [GeV/c];Duplication rate", bPt);
+  duplicationPlotCache.duplicationRate_vs_pT = new TEfficiency(
+      "duplicationRate_vs_pT",
+      "Duplication rate;Reco #it{p}_{T} [GeV/#it{c}];Duplication rate",
+      nBinsPtReduced, xBinsPtReduced);
   // duplication rate vs eta
   duplicationPlotCache.duplicationRate_vs_eta = PlotHelpers::bookEff(
       "duplicationRate_vs_eta", "Duplication rate;#eta;Duplication rate", bEta);
