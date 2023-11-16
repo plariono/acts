@@ -114,13 +114,13 @@ class RootTrackSummaryWriter final : public WriterT<ConstTrackContainer> {
       m_measurementChi2;  ///< The chi2 on all measurement states
   std::vector<std::vector<double>>
       m_outlierChi2;  ///< The chi2 on all outlier states
-  std::vector<std::vector<double>>
+  std::vector<std::vector<unsigned int>>
       m_measurementVolume;  ///< The volume id of the measurements
-  std::vector<std::vector<double>>
+  std::vector<std::vector<unsigned int>>
       m_measurementLayer;  ///< The layer id of the measurements
-  std::vector<std::vector<double>>
+  std::vector<std::vector<unsigned int>>
       m_outlierVolume;  ///< The volume id of the outliers
-  std::vector<std::vector<double>>
+  std::vector<std::vector<unsigned int>>
       m_outlierLayer;  ///< The layer id of the outliers
 
   // The majority truth particle info
