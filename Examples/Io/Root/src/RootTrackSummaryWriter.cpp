@@ -111,6 +111,7 @@ ActsExamples::RootTrackSummaryWriter::RootTrackSummaryWriter(
     m_outputTree->Branch("t_pT", &m_t_pT);
     m_outputTree->Branch("t_d0", &m_t_d0);
     m_outputTree->Branch("t_z0", &m_t_z0);
+    m_outputTree->Branch("t_pdg", &m_t_pdg);
 
     m_outputTree->Branch("hasFittedParams", &m_hasFittedParams);
     m_outputTree->Branch("eLOC0_fit", &m_eLOC0_fit);
@@ -231,11 +232,11 @@ ActsExamples::ProcessCode ActsExamples::RootTrackSummaryWriter::writeT(
     m_NDF.push_back(track.nDoF());
     {
       std::vector<double> measurementChi2;
-      std::vector<unsigned int> measurementVolume;
-      std::vector<unsigned int> measurementLayer;
+      std::vector<double> measurementVolume;
+      std::vector<double> measurementLayer;
       std::vector<double> outlierChi2;
-      std::vector<unsigned int> outlierVolume;
-      std::vector<unsigned int> outlierLayer;
+      std::vector<double> outlierVolume;
+      std::vector<double> outlierLayer;
       for (const auto& state : track.trackStatesReversed()) {
         const auto& geoID = state.referenceSurface().geometryId();
         const auto& volume = geoID.volume();
@@ -280,6 +281,7 @@ ActsExamples::ProcessCode ActsExamples::RootTrackSummaryWriter::writeT(
     float t_d0 = NaNfloat;
     float t_z0 = NaNfloat;
     float t_qop = NaNfloat;
+    int32_t t_pdg = std::numeric_limits<int32_t>::max();
 
     // Get the perigee surface
     const Acts::Surface* pSurface =
@@ -318,6 +320,7 @@ ActsExamples::ProcessCode ActsExamples::RootTrackSummaryWriter::writeT(
         t_eta = eta(particle.direction());
         t_pT = t_p * perp(particle.direction());
         t_qop = particle.qOverP();
+        t_pdg = static_cast<int32_t>(particle.pdg());
 
         if (pSurface != nullptr) {
           auto intersection =
@@ -367,6 +370,7 @@ ActsExamples::ProcessCode ActsExamples::RootTrackSummaryWriter::writeT(
     m_t_pT.push_back(t_pT);
     m_t_d0.push_back(t_d0);
     m_t_z0.push_back(t_z0);
+    m_t_pdg.push_back(t_pdg);
 
     // Initialize the fitted track parameters info
     std::array<float, Acts::eBoundSize> param = {NaNfloat, NaNfloat, NaNfloat,
@@ -521,6 +525,7 @@ ActsExamples::ProcessCode ActsExamples::RootTrackSummaryWriter::writeT(
   m_t_eta.clear();
   m_t_d0.clear();
   m_t_z0.clear();
+  m_t_pdg.clear();
 
   m_hasFittedParams.clear();
   m_eLOC0_fit.clear();

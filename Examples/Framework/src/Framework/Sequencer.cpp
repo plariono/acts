@@ -583,10 +583,10 @@ int Sequencer::run() {
   ACTS_INFO("Processed " << numEvents << " events in " << asString(totalWall)
                          << " (wall clock)");
   ACTS_INFO("Average time per event: " << perEvent(totalReal, numEvents));
-  ACTS_DEBUG("Average time per algorithm:");
+  ACTS_INFO("Average time per algorithm:");
   for (size_t i = 0; i < names.size(); ++i) {
-    ACTS_DEBUG("  " << names[i] << ": "
-                    << perEvent(clocksAlgorithms[i], numEvents));
+    ACTS_INFO("  " << names[i] << ": "
+                   << perEvent(clocksAlgorithms[i], numEvents));
   }
 
   if (!m_cfg.outputDir.empty()) {
@@ -621,10 +621,9 @@ void Sequencer::fpeReport() const {
 
     std::vector<std::reference_wrapper<const Acts::FpeMonitor::Result::FpeInfo>>
         sorted;
-    std::transform(
-        merged.stackTraces().begin(), merged.stackTraces().end(),
-        std::back_inserter(sorted),
-        [](const auto& f) -> const auto& { return f; });
+    std::transform(merged.stackTraces().begin(), merged.stackTraces().end(),
+                   std::back_inserter(sorted),
+                   [](const auto& f) -> const auto& { return f; });
     std::sort(sorted.begin(), sorted.end(), [](const auto& a, const auto& b) {
       return a.get().count > b.get().count;
     });

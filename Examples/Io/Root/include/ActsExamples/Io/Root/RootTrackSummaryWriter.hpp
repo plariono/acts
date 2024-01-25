@@ -114,13 +114,13 @@ class RootTrackSummaryWriter final : public WriterT<ConstTrackContainer> {
       m_measurementChi2;  ///< The chi2 on all measurement states
   std::vector<std::vector<double>>
       m_outlierChi2;  ///< The chi2 on all outlier states
-  std::vector<std::vector<unsigned int>>
+  std::vector<std::vector<double>>
       m_measurementVolume;  ///< The volume id of the measurements
-  std::vector<std::vector<unsigned int>>
+  std::vector<std::vector<double>>
       m_measurementLayer;  ///< The layer id of the measurements
-  std::vector<std::vector<unsigned int>>
+  std::vector<std::vector<double>>
       m_outlierVolume;  ///< The volume id of the outliers
-  std::vector<std::vector<unsigned int>>
+  std::vector<std::vector<double>>
       m_outlierLayer;  ///< The layer id of the outliers
 
   // The majority truth particle info
@@ -145,6 +145,7 @@ class RootTrackSummaryWriter final : public WriterT<ConstTrackContainer> {
       m_t_d0;  ///< The extrapolated truth transverse impact parameter
   std::vector<float>
       m_t_z0;  ///< The extrapolated truth longitudinal impact parameter
+  std::vector<int32_t> m_t_pdg;  ///< Pdg code of majority particle
 
   std::vector<bool> m_hasFittedParams;  ///< If the track has fitted parameter
   // The fitted parameters
