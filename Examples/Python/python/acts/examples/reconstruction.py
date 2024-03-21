@@ -297,7 +297,8 @@ def addSeeding(
         )
         # Run either: truth track finding or seeding
         if seedingAlgorithm == SeedingAlgorithm.TruthEstimated:
-            logger.info("Using truth track finding from space points for seeding")
+            logger.info(
+                "Using truth track finding from space points for seeding")
             seeds = addTruthEstimatedSeeding(
                 s,
                 spacePoints,
@@ -1112,7 +1113,8 @@ def addTruthTrackingGsf(
         inputInitialTrackParameters="estimatedparameters",
         outputTracks="gsf_tracks",
         pickTrack=-1,
-        fit=acts.examples.makeGsfFitterFunction(trackingGeometry, field, **gsfOptions),
+        fit=acts.examples.makeGsfFitterFunction(
+            trackingGeometry, field, **gsfOptions),
         calibrator=acts.examples.makePassThroughCalibrator(),
     )
     s.addAlgorithm(gsfAlg)
@@ -1407,6 +1409,7 @@ def addTrackWriters(
                 inputTracks=tracks,
                 inputMeasurementParticlesMap="measurement_particles_map",
                 outputDir=str(outputDirCsv),
+                ptMin=0.1 * u.MeV,
                 fileName=str(f"tracks_{name}.csv"),
             )
             s.addWriter(csvWriter)
@@ -1527,7 +1530,8 @@ def addExaTrkX(
         gnnConfig["undirected"] = True
         gnnConfig["numFeatures"] = 3
 
-        graphConstructor = acts.examples.TorchMetricLearning(**metricLearningConfig)
+        graphConstructor = acts.examples.TorchMetricLearning(
+            **metricLearningConfig)
         edgeClassifiers = [
             acts.examples.TorchEdgeClassifier(**filterConfig),
             acts.examples.TorchEdgeClassifier(**gnnConfig),
@@ -1539,7 +1543,8 @@ def addExaTrkX(
         filterConfig["modelPath"] = str(modelDir / "filtering.onnx")
         gnnConfig["modelPath"] = str(modelDir / "gnn.onnx")
 
-        graphConstructor = acts.examples.OnnxMetricLearning(**metricLearningConfig)
+        graphConstructor = acts.examples.OnnxMetricLearning(
+            **metricLearningConfig)
         edgeClassifiers = [
             acts.examples.OnnxEdgeClassifier(**filterConfig),
             acts.examples.OnnxEdgeClassifier(**gnnConfig),
@@ -1563,9 +1568,11 @@ def addExaTrkX(
             acts.examples.TrackFinderPerformanceWriter(
                 level=customLogLevel(),
                 inputProtoTracks="protoTracks",
-                inputParticles="particles_initial",  # the original selected particles after digitization
+                # the original selected particles after digitization
+                inputParticles="particles_initial",
                 inputMeasurementParticlesMap="measurement_particles_map",
-                filePath=str(Path(outputDirRoot) / "performance_track_finding.root"),
+                filePath=str(Path(outputDirRoot) / \
+                             "performance_track_finding.root"),
             )
         )
 
