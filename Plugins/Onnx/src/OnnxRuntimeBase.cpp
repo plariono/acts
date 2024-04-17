@@ -9,6 +9,7 @@
 #include "Acts/Plugins/Onnx/OnnxRuntimeBase.hpp"
 
 #include <cassert>
+#include <iostream>
 #include <stdexcept>
 
 // Parametrized constructor
@@ -90,9 +91,16 @@ Acts::OnnxRuntimeBase::runONNXInferenceMultiOutput(
     if (nodeDim[0] == -1) {
       nodeDim[0] = batchSize;
     }
+    // std::cout << "[OnnxRuntimeBase] for nodeDim.size() = " << nodeDim.size()
+    // << ", nodeDim[0] = " << nodeDim[0] << "\n";
     outputDimsMatch &= batchSize == 1 || nodeDim[0] == batchSize;
   }
 
+  // std::cout << "[OnnxRuntimeBase] batchSize = " << batchSize
+  // << ", inputNodeDims[0] = " << inputNodeDims[0]
+  // << ", outputNodeDims.size() = " << outputNodeDims.size()
+  // << ", outputDimsMatch = " << outputDimsMatch << std::endl;
+  //
   if (batchSize != 1 && (inputNodeDims[0] != batchSize || !outputDimsMatch)) {
     throw std::runtime_error(
         "runONNXInference: batch size doesn't match the input or output node "
