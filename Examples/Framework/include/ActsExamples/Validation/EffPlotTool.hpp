@@ -43,11 +43,13 @@ class EffPlotTool {
     TEfficiency* trackEff_vs_phi{nullptr};  ///< Tracking efficiency vs phi
 
     TEfficiency* trackEff_vs_pT_eta0{
-        nullptr};  ///< Tracking efficiencies vs pT at fixed eta = 0
+        nullptr};  ///< Tracking efficiencies vs pT at fixed eta = 0. - 0.2
     TEfficiency* trackEff_vs_pT_eta22{
-        nullptr};  ///< Tracking efficiencies vs pT at fixed eta = 2.2
+        nullptr};  ///< Tracking efficiencies vs pT at fixed eta = 2.2 - 2.4
     TEfficiency* trackEff_vs_pT_eta36{
-        nullptr};  ///< Tracking efficiencies vs pT at fixed eta = 3.6
+        nullptr};  ///< Tracking efficiencies vs pT at fixed eta = 3.6 - 3.8
+    TEfficiency* trackEff_vs_pT_eta38{
+        nullptr};  ///< Tracking efficiencies vs pT at fixed eta = 3.8 - 4.
 
     TEfficiency* trackEff_vs_pT_IrisL0hit{
         nullptr};  ///< Tracking efficiency vs pT + hit in the IRIS L0
@@ -79,6 +81,10 @@ class EffPlotTool {
         nullptr};  ///< Tracking efficiency vs eta (pion)
     TEfficiency* trackEff_vs_phi_pi{
         nullptr};  ///< Tracking efficiency vs phi (pion)
+    TEfficiency* trackEff_vs_eta_pi_pT_100MeV{
+        nullptr};  ///< Tracking efficiency vs eta (pion), pT = 100 MeV/c
+    TEfficiency* trackEff_vs_eta_pi_pT_1GeV{
+        nullptr};  ///< Tracking efficiency vs eta (pion), pT = 1 GeV/c
 
     TEfficiency* trackEff_vs_pT_ka{
         nullptr};  ///< Tracking efficiency vs pT (kaon)
@@ -93,6 +99,10 @@ class EffPlotTool {
         nullptr};  ///< Tracking efficiency vs eta (proton)
     TEfficiency* trackEff_vs_phi_pr{
         nullptr};  ///< Tracking efficiency vs phi (proton)
+    TEfficiency* trackEff_vs_eta_pr_pT_100MeV{
+        nullptr};  ///< Tracking efficiency vs eta (proton), pT = 100 MeV/c
+    TEfficiency* trackEff_vs_eta_pr_pT_1GeV{
+        nullptr};  ///< Tracking efficiency vs eta (proton), pT = 1 GeV/c
   };
 
   /// Constructor

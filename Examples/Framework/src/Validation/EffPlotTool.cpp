@@ -71,6 +71,12 @@ void ActsExamples::EffPlotTool::book(
       "[GeV/#it{c}];Efficiency",
       nBinsPtReduced, xBinsPtReduced);
 
+  effPlotCache.trackEff_vs_pT_eta38 = new TEfficiency(
+      "trackeff_vs_pT_eta38",
+      "Tracking efficiency at #it{#eta} = [3.8 - 3.9];Truth #it{p}_{T} "
+      "[GeV/#it{c}];Efficiency",
+      nBinsPtReduced, xBinsPtReduced);
+
   // Efficiency vs pT + hit in IRIS L0
   effPlotCache.trackEff_vs_pT_IrisL0hit = new TEfficiency(
       "trackeff_vs_pT_IrisL0hit",
@@ -130,6 +136,16 @@ void ActsExamples::EffPlotTool::book(
   effPlotCache.trackEff_vs_phi_pi = PlotHelpers::bookEff(
       "trackeff_vs_phi_pi",
       "Tracking efficiency (#pi^{#pm});Truth #phi;Efficiency", bPhi);
+  effPlotCache.trackEff_vs_eta_pi_pT_100MeV =
+      PlotHelpers::bookEff("trackeff_vs_eta_pi_pT_100MeV",
+                           "Tracking efficiency (#pi^{#pm}), #it{p}_{T} = 100 "
+                           "MeV/#it{c};Truth #eta;Efficiency",
+                           bEta);
+  effPlotCache.trackEff_vs_eta_pi_pT_1GeV =
+      PlotHelpers::bookEff("trackeff_vs_eta_pi_pT_1GeV",
+                           "Tracking efficiency (#pi^{#pm}), #it{p}_{T} = 1 "
+                           "GeV/#it{c} ;Truth #eta;Efficiency",
+                           bEta);
 
   // Kaons
   effPlotCache.trackEff_vs_pT_ka = new TEfficiency(
@@ -154,6 +170,16 @@ void ActsExamples::EffPlotTool::book(
   effPlotCache.trackEff_vs_phi_pr = PlotHelpers::bookEff(
       "trackeff_vs_phi_pr",
       "Tracking efficiency (p^{#pm});Truth #phi;Efficiency", bPhi);
+  effPlotCache.trackEff_vs_eta_pr_pT_100MeV =
+      PlotHelpers::bookEff("trackeff_vs_eta_pr_pT_100MeV",
+                           "Tracking efficiency (#p^{#pm}), #it{p}_{T} = 100 "
+                           "MeV/#it{c};Truth #eta;Efficiency",
+                           bEta);
+  effPlotCache.trackEff_vs_eta_pr_pT_1GeV =
+      PlotHelpers::bookEff("trackeff_vs_eta_pr_pT_1GeV",
+                           "Tracking efficiency (#p^{#pm}), #it{p}_{T} = 1 "
+                           "GeV/#it{c} ;Truth #eta;Efficiency",
+                           bEta);
 }
 
 void ActsExamples::EffPlotTool::clear(EffPlotCache& effPlotCache) const {
@@ -164,6 +190,7 @@ void ActsExamples::EffPlotTool::clear(EffPlotCache& effPlotCache) const {
   delete effPlotCache.trackEff_vs_pT_eta0;
   delete effPlotCache.trackEff_vs_pT_eta22;
   delete effPlotCache.trackEff_vs_pT_eta36;
+  delete effPlotCache.trackEff_vs_pT_eta38;
 
   delete effPlotCache.trackEff_vs_pT_IrisL0hit;
   delete effPlotCache.trackEff_vs_eta_IrisL0hit;
@@ -182,6 +209,8 @@ void ActsExamples::EffPlotTool::clear(EffPlotCache& effPlotCache) const {
   delete effPlotCache.trackEff_vs_pT_pi;
   delete effPlotCache.trackEff_vs_eta_pi;
   delete effPlotCache.trackEff_vs_phi_pi;
+  delete effPlotCache.trackEff_vs_eta_pi_pT_100MeV;
+  delete effPlotCache.trackEff_vs_eta_pi_pT_1GeV;
 
   delete effPlotCache.trackEff_vs_pT_ka;
   delete effPlotCache.trackEff_vs_eta_ka;
@@ -190,6 +219,8 @@ void ActsExamples::EffPlotTool::clear(EffPlotCache& effPlotCache) const {
   delete effPlotCache.trackEff_vs_pT_pr;
   delete effPlotCache.trackEff_vs_eta_pr;
   delete effPlotCache.trackEff_vs_phi_pr;
+  delete effPlotCache.trackEff_vs_eta_pr_pT_100MeV;
+  delete effPlotCache.trackEff_vs_eta_pr_pT_1GeV;
 }
 
 void ActsExamples::EffPlotTool::write(
@@ -202,6 +233,7 @@ void ActsExamples::EffPlotTool::write(
   effPlotCache.trackEff_vs_pT_eta0->Write();
   effPlotCache.trackEff_vs_pT_eta22->Write();
   effPlotCache.trackEff_vs_pT_eta36->Write();
+  effPlotCache.trackEff_vs_pT_eta38->Write();
 
   effPlotCache.trackEff_vs_pT_IrisL0hit->Write();
   effPlotCache.trackEff_vs_eta_IrisL0hit->Write();
@@ -220,6 +252,8 @@ void ActsExamples::EffPlotTool::write(
   effPlotCache.trackEff_vs_pT_pi->Write();
   effPlotCache.trackEff_vs_eta_pi->Write();
   effPlotCache.trackEff_vs_phi_pi->Write();
+  effPlotCache.trackEff_vs_eta_pi_pT_100MeV->Write();
+  effPlotCache.trackEff_vs_eta_pi_pT_1GeV->Write();
 
   effPlotCache.trackEff_vs_pT_ka->Write();
   effPlotCache.trackEff_vs_eta_ka->Write();
@@ -228,6 +262,8 @@ void ActsExamples::EffPlotTool::write(
   effPlotCache.trackEff_vs_pT_pr->Write();
   effPlotCache.trackEff_vs_eta_pr->Write();
   effPlotCache.trackEff_vs_phi_pr->Write();
+  effPlotCache.trackEff_vs_eta_pr_pT_100MeV->Write();
+  effPlotCache.trackEff_vs_eta_pr_pT_1GeV->Write();
 }
 
 void ActsExamples::EffPlotTool::fill(EffPlotTool::EffPlotCache& effPlotCache,
@@ -246,6 +282,8 @@ void ActsExamples::EffPlotTool::fill(EffPlotTool::EffPlotCache& effPlotCache,
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_pT_eta22, t_pT, status);
   else if (t_eta >= 3.6 && t_eta < 3.8)
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_pT_eta36, t_pT, status);
+  else if (t_eta >= 3.8 && t_eta < 4.)
+    PlotHelpers::fillEff(effPlotCache.trackEff_vs_pT_eta38, t_pT, status);
 
   if (abs(truthParticle.pdg()) == 11) {
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_pT_el, t_pT, status);
@@ -259,6 +297,15 @@ void ActsExamples::EffPlotTool::fill(EffPlotTool::EffPlotCache& effPlotCache,
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_pT_pi, t_pT, status);
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pi, t_eta, status);
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_phi_pi, t_phi, status);
+    if (truthParticle.transverseMomentum() > 0.9 &&
+        truthParticle.transverseMomentum() < 1.1) {
+      PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pi_pT_1GeV, t_pT,
+                           status);
+    } else if (truthParticle.transverseMomentum() > 0.09 &&
+               truthParticle.transverseMomentum() < 0.11) {
+      PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pi_pT_100MeV, t_pT,
+                           status);
+    }
   } else if (abs(truthParticle.pdg()) == 321) {
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_pT_ka, t_pT, status);
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_ka, t_eta, status);
@@ -267,6 +314,15 @@ void ActsExamples::EffPlotTool::fill(EffPlotTool::EffPlotCache& effPlotCache,
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_pT_pr, t_pT, status);
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pr, t_eta, status);
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_phi_pr, t_phi, status);
+    if (truthParticle.transverseMomentum() > 0.9 &&
+        truthParticle.transverseMomentum() < 1.1) {
+      PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pr_pT_1GeV, t_pT,
+                           status);
+    } else if (truthParticle.transverseMomentum() > 0.09 &&
+               truthParticle.transverseMomentum() < 0.11) {
+      PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pr_pT_100MeV, t_pT,
+                           status);
+    }
   }
 }
 
