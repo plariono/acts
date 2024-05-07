@@ -299,11 +299,11 @@ void ActsExamples::EffPlotTool::fill(EffPlotTool::EffPlotCache& effPlotCache,
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_phi_pi, t_phi, status);
     if (truthParticle.transverseMomentum() > 0.9 &&
         truthParticle.transverseMomentum() < 1.1) {
-      PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pi_pT_1GeV, t_pT,
+      PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pi_pT_1GeV, t_eta,
                            status);
     } else if (truthParticle.transverseMomentum() > 0.09 &&
                truthParticle.transverseMomentum() < 0.11) {
-      PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pi_pT_100MeV, t_pT,
+      PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pi_pT_100MeV, t_eta,
                            status);
     }
   } else if (abs(truthParticle.pdg()) == 321) {
@@ -316,11 +316,11 @@ void ActsExamples::EffPlotTool::fill(EffPlotTool::EffPlotCache& effPlotCache,
     PlotHelpers::fillEff(effPlotCache.trackEff_vs_phi_pr, t_phi, status);
     if (truthParticle.transverseMomentum() > 0.9 &&
         truthParticle.transverseMomentum() < 1.1) {
-      PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pr_pT_1GeV, t_pT,
+      PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pr_pT_1GeV, t_eta,
                            status);
     } else if (truthParticle.transverseMomentum() > 0.09 &&
                truthParticle.transverseMomentum() < 0.11) {
-      PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pr_pT_100MeV, t_pT,
+      PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta_pr_pT_100MeV, t_eta,
                            status);
     }
   }
