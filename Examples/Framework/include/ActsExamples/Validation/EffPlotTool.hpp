@@ -31,7 +31,7 @@ class EffPlotTool {
   /// @brief The nested configuration struct
   struct Config {
     std::map<std::string, PlotHelpers::Binning> varBinning = {
-        {"Eta", PlotHelpers::Binning("#eta", 40, -4., 4.)},
+        {"Eta", PlotHelpers::Binning("#eta", 160, -4., 4.)},
         {"Phi", PlotHelpers::Binning("#phi", 100, -3.15, 3.15)},
         {"Pt", PlotHelpers::Binning("pT [GeV/c]", 40, 0, 100)}};
   };

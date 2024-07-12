@@ -73,7 +73,7 @@ void ActsExamples::EffPlotTool::book(
 
   effPlotCache.trackEff_vs_pT_eta38 = new TEfficiency(
       "trackeff_vs_pT_eta38",
-      "Tracking efficiency at #it{#eta} = [3.8 - 3.9];Truth #it{p}_{T} "
+      "Tracking efficiency at #it{#eta} = [3.8 - 4.];Truth #it{p}_{T} "
       "[GeV/#it{c}];Efficiency",
       nBinsPtReduced, xBinsPtReduced);
 
