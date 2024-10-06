@@ -40,6 +40,10 @@ class EffPlotTool {
   /// @brief Nested Cache struct
   struct EffPlotCache {
     TEfficiency* trackEff_vs_pT{nullptr};   ///< Tracking efficiency vs pT
+    TEfficiency* trackEff_vs_pT_eta0{
+        nullptr};  ///< Tracking efficiencies vs pT at fixed eta
+    TEfficiency* trackEff_vs_pT_eta22{nullptr};  ///<
+    TEfficiency* trackEff_vs_pT_eta36{nullptr};  ///<
     TEfficiency* trackEff_vs_eta{nullptr};  ///< Tracking efficiency vs eta
     TEfficiency* trackEff_vs_phi{nullptr};  ///< Tracking efficiency vs phi
     TEfficiency* trackEff_vs_DeltaR{

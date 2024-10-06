@@ -583,9 +583,9 @@ int Sequencer::run() {
   ACTS_INFO("Processed " << numEvents << " events in " << asString(totalWall)
                          << " (wall clock)");
   ACTS_INFO("Average time per event: " << perEvent(totalReal, numEvents));
-  ACTS_DEBUG("Average time per algorithm:");
+  ACTS_INFO("Average time per algorithm:");
   for (std::size_t i = 0; i < names.size(); ++i) {
-    ACTS_DEBUG("  " << names[i] << ": "
+    ACTS_INFO("  " << names[i] << ": "
                     << perEvent(clocksAlgorithms[i], numEvents));
   }
 

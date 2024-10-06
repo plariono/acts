@@ -28,15 +28,49 @@ void ActsExamples::EffPlotTool::book(
   PlotHelpers::Binning bPt = m_cfg.varBinning.at("Pt");
   PlotHelpers::Binning bDeltaR = m_cfg.varBinning.at("DeltaR");
   ACTS_DEBUG("Initialize the histograms for efficiency plots");
+
+  const int nBinsPt = 37;
+  const double xBinsPt[nBinsPt + 1] = {
+      0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.25, 0.3,
+      0.4,  0.5,  0.6,  0.7,  0.8,  0.9, 1.,   2.,   3.,   4.,   5.,  6.,   7.,
+      8.,   9.,   10.,  20.,  30.,  40., 50.,  60.,  70.,  80.,  90., 100.};
+
+  const int nBinsPtReduced = 28;
+  const double xBinsPtReduced[nBinsPtReduced + 1] = {
+      0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.12, 0.14, 0.16, 0.18,
+      0.2,  0.25, 0.3,  0.4,  0.5,  0.6, 0.7,  0.8,  0.9,  1.,
+      2.,   3.,   4.,   5.,   6.,   7.,  8.,   9.,   10.};
+
   // efficiency vs pT
-  effPlotCache.trackEff_vs_pT = PlotHelpers::bookEff(
-      "trackeff_vs_pT", "Tracking efficiency;Truth pT [GeV/c];Efficiency", bPt);
+  effPlotCache.trackEff_vs_pT = new TEfficiency(
+      "trackeff_vs_pT", "Tracking efficiency;Truth pT [GeV/c];Efficiency",
+      nBinsPt, xBinsPt);
   // efficiency vs eta
   effPlotCache.trackEff_vs_eta = PlotHelpers::bookEff(
       "trackeff_vs_eta", "Tracking efficiency;Truth #eta;Efficiency", bEta);
   // efficiency vs phi
   effPlotCache.trackEff_vs_phi = PlotHelpers::bookEff(
       "trackeff_vs_phi", "Tracking efficiency;Truth #phi;Efficiency", bPhi);
+
+  // efficiency at fixed eta
+  effPlotCache.trackEff_vs_pT_eta0 = new TEfficiency(
+      "trackeff_vs_pT_eta0",
+      "Tracking efficiency at #it{#eta} = [0.0 - 0.2];Truth #it{p}_{T} "
+      "[GeV/#it{c}];Efficiency",
+      nBinsPtReduced, xBinsPtReduced);
+
+  effPlotCache.trackEff_vs_pT_eta22 = new TEfficiency(
+      "trackeff_vs_pT_eta22",
+      "Tracking efficiency at #it{#eta} = [2.2 - 2.4];Truth #it{p}_{T} "
+      "[GeV/#it{c}];Efficiency",
+      nBinsPtReduced, xBinsPtReduced);
+
+  effPlotCache.trackEff_vs_pT_eta36 = new TEfficiency(
+      "trackeff_vs_pT_eta36",
+      "Tracking efficiency at #it{#eta} = [3.6 - 3.8];Truth #it{p}_{T} "
+      "[GeV/#it{c}];Efficiency",
+      nBinsPtReduced, xBinsPtReduced);
+
   // efficiancy vs distance to the closest truth particle
   effPlotCache.trackEff_vs_DeltaR = PlotHelpers::bookEff(
       "trackeff_vs_DeltaR",
@@ -47,6 +81,9 @@ void ActsExamples::EffPlotTool::clear(EffPlotCache& effPlotCache) const {
   delete effPlotCache.trackEff_vs_pT;
   delete effPlotCache.trackEff_vs_eta;
   delete effPlotCache.trackEff_vs_phi;
+  delete effPlotCache.trackEff_vs_pT_eta0;
+  delete effPlotCache.trackEff_vs_pT_eta22;
+  delete effPlotCache.trackEff_vs_pT_eta36;
   delete effPlotCache.trackEff_vs_DeltaR;
 }
 
@@ -56,6 +93,9 @@ void ActsExamples::EffPlotTool::write(
   effPlotCache.trackEff_vs_pT->Write();
   effPlotCache.trackEff_vs_eta->Write();
   effPlotCache.trackEff_vs_phi->Write();
+  effPlotCache.trackEff_vs_pT_eta0->Write();
+  effPlotCache.trackEff_vs_pT_eta22->Write();
+  effPlotCache.trackEff_vs_pT_eta36->Write();
   effPlotCache.trackEff_vs_DeltaR->Write();
 }
 
@@ -71,4 +111,11 @@ void ActsExamples::EffPlotTool::fill(EffPlotTool::EffPlotCache& effPlotCache,
   PlotHelpers::fillEff(effPlotCache.trackEff_vs_eta, t_eta, status);
   PlotHelpers::fillEff(effPlotCache.trackEff_vs_phi, t_phi, status);
   PlotHelpers::fillEff(effPlotCache.trackEff_vs_DeltaR, t_deltaR, status);
+
+  if (t_eta >= -0.1 && t_eta < 0.1)
+    PlotHelpers::fillEff(effPlotCache.trackEff_vs_pT_eta0, t_pT, status);
+  else if (t_eta >= 2.1 && t_eta < 2.3)
+    PlotHelpers::fillEff(effPlotCache.trackEff_vs_pT_eta22, t_pT, status);
+  else if (t_eta >= 3.5 && t_eta < 3.7)
+    PlotHelpers::fillEff(effPlotCache.trackEff_vs_pT_eta36, t_pT, status);
 }
