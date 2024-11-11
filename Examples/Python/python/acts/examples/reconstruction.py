@@ -1462,7 +1462,7 @@ def addAmbiguityResolution(
         tracks=alg.config.outputTracks,
         outputDirCsv=outputDirCsv,
         outputDirRoot=outputDirRoot,
-        writeStates=False,
+        writeStates=writeTrajectories,
         writeSummary=writeTrajectories,
         writeCKFperformance=True,
         writeFinderPerformance=True,

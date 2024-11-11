@@ -119,26 +119,38 @@ void Mat_map(std::string Val = "", std::string geantino = "", std::string name =
   TChain *geantino_file = new TChain("material-tracks");
 
   // Define line corresponding to the different eta value
-  TLine *eta_0 = new TLine(0,-1200,0,1200);
+  TLine *eta_0 = new TLine(0,0,0,1200);
   eta_0->SetLineColor(kRed);
 
-  TLine *eta_1p = new TLine(-1250,-1064,1250,1064);
+  TLine *eta_1p = new TLine(0,0,1250,1064);
   eta_1p->SetLineColor(kRed);
-  TLine *eta_2p = new TLine(-3000,-827,3000,827);
+  TLine *eta_2p = new TLine(0,0,3000,827);
   eta_2p->SetLineColor(kRed);
-  TLine *eta_3p = new TLine(-3000,-300,3000,300);
+  TLine *eta_3p = new TLine(0,0,3000,300);
   eta_3p->SetLineColor(kRed);
-  TLine *eta_4p = new TLine(-3000,-110,3000,110);
+  TLine *eta_4p = new TLine(0,0,3000,110);
   eta_4p->SetLineColor(kRed);
 
-  TLine *eta_1n = new TLine(-1250,1064,1250,-1064);
-  eta_1n->SetLineColor(kRed);
-  TLine *eta_2n = new TLine(-3000,827,3000,-827);
-  eta_2n->SetLineColor(kRed);
-  TLine *eta_3n = new TLine(-3000,300,3000,-300);
-  eta_3n->SetLineColor(kRed);
-  TLine *eta_4n = new TLine(-3000,110,3000,-110);
-  eta_4n->SetLineColor(kRed);
+  TLine *eta_1n = new TLine(-1250,1064,0,0);
+  eta_1n->SetLineColor(9);
+  eta_1n->SetLineWidth(2);
+  TLine *eta_2n = new TLine(-3000,827,0,0);
+  eta_2n->SetLineColor(9);
+  eta_2n->SetLineWidth(2);
+  TLine *eta_3n = new TLine(-3000,300,0,0);
+  eta_3n->SetLineColor(9);
+  eta_3n->SetLineWidth(2);
+  TLine *eta_4n = new TLine(-3000,110,0,0);
+  eta_4n->SetLineColor(9);
+  eta_4n->SetLineWidth(2);
+
+  TLine *eta_2p15_pos = new TLine(0, 0, 3000, 708);
+  eta_2p15_pos->SetLineColor(kRed);
+  eta_2p15_pos->SetLineWidth(3);
+
+  TLine *eta_3p55pos = new TLine(0, 0, 3000, 172);
+  eta_3p55pos->SetLineColor(9);
+  eta_3p55pos->SetLineWidth(3);
 
   if(Val != ""){
     Val_file->Add(Val.c_str());
@@ -220,6 +232,33 @@ void Mat_map(std::string Val = "", std::string geantino = "", std::string name =
 
     GM->Print( (name+"/geant_mat_map.png").c_str());
     //GM->Print( (name+"/geant_mat_map.pdf").c_str());
+
+    TCanvas *GM_zoom = new TCanvas("GM_zoom", "Geantino Map zoom");
+    geantino_file->Draw("mat_y:mat_z",
+                        "fabs(mat_x)<1 && mat_y > -5 && mat_y < 40 && mat_z "
+                        "> 0 && mat_z < 400");
+    eta_0->Draw("Same");
+    eta_1p->Draw("Same");
+    eta_2p->Draw("Same");
+    eta_2p15_pos->Draw("Same");
+    eta_3p->Draw("Same");
+    eta_3p55pos->Draw("Same");
+    TText *text_eta_3p55pos = new TText(0, 180, "#it{#eta} = 3.55");
+    text_eta_3p55pos->SetTextColor(kRed);
+    text_eta_3p55pos->SetTextSize(0.04);
+    text_eta_3p55pos->Draw("Same");
+    eta_4p->Draw("Same");
+    GM_zoom->Print((name + "/geant_mat_map_zoom.png").c_str());
+
+    TCanvas *GM_zoom_neg = new TCanvas("GM_zoom_neg", "Geantino Map zoom neg");
+    geantino_file->Draw("mat_y:mat_z",
+                        "fabs(mat_x)<1 && mat_y > 0 && mat_y < 300 && mat_z "
+                        "< 0 && mat_z > -1200");
+    eta_1n->Draw("Same");
+    eta_2n->Draw("Same");
+    eta_3n->Draw("Same");
+    eta_4n->Draw("Same");
+    GM_zoom_neg->Print((name + "/geant_mat_map_zoom_neg.png").c_str());
 
     // X0 as function of Eta for Geantino input
     TCanvas *GM_X0_Eta = new TCanvas("GM_X0_Eta","Geantino X0 Eta") ;
