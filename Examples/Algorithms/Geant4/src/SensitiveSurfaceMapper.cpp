@@ -24,6 +24,7 @@
 
 #include <G4LogicalVolume.hh>
 #include <G4Material.hh>
+#include <G4PVPlacement.hh>
 #include <G4Polyhedron.hh>
 #include <G4VPhysicalVolume.hh>
 #include <G4VSolid.hh>
@@ -153,8 +154,32 @@ void SensitiveSurfaceMapper::remapSensitiveNames(
                          actsVec[2] / convertLength);
   };
 
+  ACTS_VERBOSE("[SensitiveSurfaceMapper] g4PhysicalVolume->GetName() = "
+               << g4PhysicalVolume->GetName());
+  ACTS_VERBOSE("[SensitiveSurfaceMapper] g4PhysicalVolume->GetInstanceID() = "
+               << g4PhysicalVolume->GetInstanceID());
+  ACTS_VERBOSE(
+      "[SensitiveSurfaceMapper] g4PhysicalVolume->GetFrameTranslation() = "
+      << g4PhysicalVolume->GetFrameTranslation());
+
+  G4PVPlacement* placement = dynamic_cast<G4PVPlacement*>(g4PhysicalVolume);
+  if (placement) {
+    // Successfully casted, now you can use G4PVPlacement methods
+    G4ThreeVector translation = placement->GetObjectTranslation();
+    G4RotationMatrix* rotation = placement->GetObjectRotation();
+    G4int copyNo = placement->GetCopyNo();
+  }
+
+  ACTS_VERBOSE("[SensitiveSurfaceMapper] placement->GetObjectTranslation() = "
+               << placement->GetObjectTranslation());
+  ACTS_VERBOSE("[SensitiveSurfaceMapper] placement->GetObjectRotation() = "
+               << placement->GetObjectRotation());
+
   auto g4LogicalVolume = g4PhysicalVolume->GetLogicalVolume();
   auto g4SensitiveDetector = g4LogicalVolume->GetSensitiveDetector();
+
+  ACTS_VERBOSE(
+      "[SensitiveSurfaceMapper] g4SensitiveDetector = " << g4SensitiveDetector);
 
   // Get the transform of the G4 object
   Acts::Transform3 localG4ToGlobal;
@@ -176,6 +201,12 @@ void SensitiveSurfaceMapper::remapSensitiveNames(
 
   Acts::Vector3 g4AbsPosition = localG4ToGlobal * Acts::Vector3::Zero();
 
+  ACTS_VERBOSE("[SensitiveSurfaceMapper] g4PhysicalVolume->GetTranslation() = "
+               << g4PhysicalVolume->GetTranslation());
+  ACTS_VERBOSE("[SensitiveSurfaceMapper] g4PhysicalVolume->GetRotation() = "
+               << g4PhysicalVolume->GetRotation());
+  ACTS_VERBOSE("[SensitiveSurfaceMapper] g4AbsPosition = " << g4AbsPosition);
+
   if (G4int nDaughters = g4LogicalVolume->GetNoDaughters(); nDaughters > 0) {
     // Step down to all daughters
     for (G4int id = 0; id < nDaughters; ++id) {
@@ -187,6 +218,12 @@ void SensitiveSurfaceMapper::remapSensitiveNames(
 
   std::string volumeName = g4LogicalVolume->GetName();
   std::string volumeMaterialName = g4LogicalVolume->GetMaterial()->GetName();
+
+  ACTS_VERBOSE(
+      "[SensitiveSurfaceMapper] g4LogicalVolume->GetName() = " << volumeName);
+  ACTS_VERBOSE(
+      "[SensitiveSurfaceMapper] g4LogicalVolume->GetMaterial()->GetName() = "
+      << volumeMaterialName);
 
   const bool isSensitive = g4SensitiveDetector != nullptr;
   const bool isMappedMaterial =
@@ -231,6 +268,23 @@ void SensitiveSurfaceMapper::remapSensitiveNames(
 
   ACTS_VERBOSE("Found " << candidateSurfaces.size()
                         << " candidate surfaces for " << volumeName);
+
+  for (const auto& candidateSurface : candidateSurfaces) {
+    ACTS_VERBOSE("[SensitiveSurfaceMapper] candidateSurface->bounds().type() = "
+                 << candidateSurface->bounds().type());
+    ACTS_VERBOSE("[SensitiveSurfaceMapper] candidateSurface->type() = "
+                 << candidateSurface->type());
+    ACTS_VERBOSE("[SensitiveSurfaceMapper] candidateSurface->center(gctx) = "
+                 << candidateSurface->center(gctx));
+    ACTS_VERBOSE(
+        "[SensitiveSurfaceMapper] "
+        "candidateSurface->associatedLayer()->layerType() = "
+        << candidateSurface->associatedLayer()->layerType());
+    ACTS_VERBOSE(
+        "[SensitiveSurfaceMapper] "
+        "candidateSurface->associatedLayer()->geometryId() = "
+        << candidateSurface->associatedLayer()->geometryId());
+  }
 
   for (const auto& candidateSurface : candidateSurfaces) {
     if (candidateSurface->center(gctx).isApprox(g4AbsPosition)) {
