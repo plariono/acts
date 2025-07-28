@@ -162,6 +162,8 @@ void CylinderBounds::checkConsistency() noexcept(false) {
   }
   if (get(eHalfPhiSector) <= 0. || get(eHalfPhiSector) > std::numbers::pi) {
     throw std::invalid_argument("CylinderBounds: invalid phi sector setup.");
+    std::stringstream sstrm;
+    toStream(sstrm);
   }
   if (get(eAveragePhi) != detail::radian_sym(get(eAveragePhi)) &&
       std::abs(std::abs(get(eAveragePhi)) - std::numbers::pi) > s_epsilon) {
