@@ -272,7 +272,19 @@ class CombinatorialKalmanFilter {
         ACTS_VERBOSE("Perform filter step");
         auto res = filter(surface, state, stepper, navigator, result);
         if (!res.ok()) {
+          auto startSurface = navigator.startSurface(state.navigation);
           ACTS_ERROR("Error in filter: " << res.error());
+          ACTS_ERROR("startSurface geometryId(): " << startSurface->geometryId());
+          if (auto targetSurface = navigator.targetSurface(state.navigation);
+          targetSurface != nullptr) {
+          ACTS_ERROR("targetSurface geometryId(): " << targetSurface->geometryId());
+          ACTS_ERROR("Target surface type: " << targetSurface->type());
+        } else {
+          ACTS_ERROR("Target surface is nullptr");
+        }
+          ACTS_ERROR("Current surface->geometryId(): " << surface->geometryId());
+          ACTS_ERROR("Current surface type: " << surface->type());
+          ACTS_ERROR("Start surface type: " << startSurface->type());
           result.lastError = res.error();
         }
 
