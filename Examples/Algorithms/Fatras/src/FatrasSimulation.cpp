@@ -54,7 +54,7 @@ struct HitSurfaceSelector {
     // Get the geometry ID
     const auto geoID = surface.geometryId();
     // Define sensors to reject
-    bool rejectSensor = (geoID.volume() == 13 && geoID.layer() == 4);
+    bool rejectSensor = (geoID.volume() == 13 && geoID.layer() == 6);
     // Reject specific sensors
     if (rejectSensor) {
       // std::cout << "Rejecting hit on surface with ID: vol="
