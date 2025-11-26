@@ -50,8 +50,19 @@ struct HitSurfaceSelector {
   bool passive = false;
 
   /// Check if the surface should be used.
-  bool operator()(const Acts::Surface &surface) const {
-    // sensitive/material are not mutually exclusive
+  bool operator()(const Acts::Surface& surface) const {
+    // Get the geometry ID
+    const auto geoID = surface.geometryId();
+    // Define sensors to reject
+    bool rejectSensor = (geoID.volume() == 13 && geoID.layer() == 2);
+    // Reject specific sensors
+    if (rejectSensor) {
+      // std::cout << "Rejecting hit on surface with ID: vol="
+      //           << geoID.volume() << "|lay=" << geoID.layer()
+      //           << "|sen=" << geoID.sensitive() << std::endl;
+      return false;
+    }
+
     bool isSensitive = surface.associatedDetectorElement() != nullptr;
     bool isMaterial = surface.surfaceMaterial() != nullptr;
     // passive should be an orthogonal category
@@ -67,10 +78,10 @@ struct HitSurfaceSelector {
 struct ActsExamples::detail::FatrasSimulation {
   virtual ~FatrasSimulation() = default;
   virtual Acts::Result<std::vector<ActsFatras::FailedParticle>> simulate(
-      const Acts::GeometryContext &, const Acts::MagneticFieldContext &,
-      ActsExamples::RandomEngine &, const std::vector<ActsFatras::Particle> &,
-      std::vector<ActsFatras::Particle> &, std::vector<ActsFatras::Particle> &,
-      std::vector<ActsFatras::Hit> &) const = 0;
+      const Acts::GeometryContext&, const Acts::MagneticFieldContext&,
+      ActsExamples::RandomEngine&, const std::vector<ActsFatras::Particle>&,
+      std::vector<ActsFatras::Particle>&, std::vector<ActsFatras::Particle>&,
+      std::vector<ActsFatras::Hit>&) const = 0;
 };
 
 namespace {
@@ -110,7 +121,7 @@ struct FatrasSimulationT final : ActsExamples::detail::FatrasSimulation {
 
   Simulation simulation;
 
-  FatrasSimulationT(const ActsExamples::FatrasSimulation::Config &cfg,
+  FatrasSimulationT(const ActsExamples::FatrasSimulation::Config& cfg,
                     Acts::Logging::Level lvl)
       : simulation(
             ChargedSimulation(
@@ -164,12 +175,12 @@ struct FatrasSimulationT final : ActsExamples::detail::FatrasSimulation {
   ~FatrasSimulationT() final = default;
 
   Acts::Result<std::vector<ActsFatras::FailedParticle>> simulate(
-      const Acts::GeometryContext &geoCtx,
-      const Acts::MagneticFieldContext &magCtx, ActsExamples::RandomEngine &rng,
-      const std::vector<ActsFatras::Particle> &inputParticles,
-      std::vector<ActsFatras::Particle> &simulatedParticlesInitial,
-      std::vector<ActsFatras::Particle> &simulatedParticlesFinal,
-      std::vector<ActsFatras::Hit> &simHits) const final {
+      const Acts::GeometryContext& geoCtx,
+      const Acts::MagneticFieldContext& magCtx, ActsExamples::RandomEngine& rng,
+      const std::vector<ActsFatras::Particle>& inputParticles,
+      std::vector<ActsFatras::Particle>& simulatedParticlesInitial,
+      std::vector<ActsFatras::Particle>& simulatedParticlesFinal,
+      std::vector<ActsFatras::Hit>& simHits) const final {
     return simulation.simulate(geoCtx, magCtx, rng, inputParticles,
                                simulatedParticlesInitial,
                                simulatedParticlesFinal, simHits);
@@ -212,16 +223,16 @@ ActsExamples::FatrasSimulation::FatrasSimulation(Config cfg,
 ActsExamples::FatrasSimulation::~FatrasSimulation() = default;
 
 ActsExamples::ProcessCode ActsExamples::FatrasSimulation::execute(
-    const AlgorithmContext &ctx) const {
+    const AlgorithmContext& ctx) const {
   // read input containers
-  const auto &inputParticles = m_inputParticles(ctx);
+  const auto& inputParticles = m_inputParticles(ctx);
 
   ACTS_DEBUG(inputParticles.size() << " input particles");
 
   // prepare input container
   std::vector<ActsFatras::Particle> particlesInput;
   particlesInput.reserve(inputParticles.size());
-  for (const auto &p : inputParticles) {
+  for (const auto& p : inputParticles) {
     particlesInput.push_back(p.initial());
   }
 
@@ -249,7 +260,7 @@ ActsExamples::ProcessCode ActsExamples::FatrasSimulation::execute(
   // failed particles are just logged. assumes that failed particles are due
   // to edge-cases representing a tiny fraction of the event; not due to a
   // fundamental issue.
-  for (const auto &failed : ret.value()) {
+  for (const auto& failed : ret.value()) {
     ACTS_ERROR("event " << ctx.eventNumber << " particle " << failed.particle
                         << " failed to simulate with error " << failed.error
                         << ": " << failed.error.message());
@@ -284,20 +295,20 @@ ActsExamples::ProcessCode ActsExamples::FatrasSimulation::execute(
   particlesFinal.reserve(particlesFinalUnordered.size());
   simHits.reserve(simHitsUnordered.size());
 
-  for (const auto &p : particlesInitialUnordered) {
+  for (const auto& p : particlesInitialUnordered) {
     particlesInitial.insert(p);
   }
-  for (const auto &p : particlesFinalUnordered) {
+  for (const auto& p : particlesFinalUnordered) {
     particlesFinal.insert(p);
   }
-  for (const auto &h : simHitsUnordered) {
+  for (const auto& h : simHitsUnordered) {
     simHits.insert(h);
   }
 #endif
 
   SimParticleContainer particlesSimulated;
   particlesSimulated.reserve(particlesInitial.size());
-  for (const auto &particleInitial : particlesInitial) {
+  for (const auto& particleInitial : particlesInitial) {
     SimParticle particleSimulated(particleInitial, particleInitial);
 
     if (auto it = particlesFinal.find(particleInitial.particleId());
