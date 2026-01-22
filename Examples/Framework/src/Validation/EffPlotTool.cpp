@@ -30,8 +30,21 @@ void ActsExamples::EffPlotTool::book(
   PlotHelpers::Binning bZ0 = m_cfg.varBinning.at("Z0");
   ACTS_DEBUG("Initialize the histograms for efficiency plots");
   // efficiency vs pT
-  effPlotCache.trackEff_vs_pT = PlotHelpers::bookEff(
-      "trackeff_vs_pT", "Tracking efficiency;Truth pT [GeV/c];Efficiency", bPt);
+  const int nBinsPt = 37;
+  const double xBinsPt[nBinsPt + 1] = {
+      0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.25, 0.3,
+      0.4,  0.5,  0.6,  0.7,  0.8,  0.9, 1.,   2.,   3.,   4.,   5.,  6.,   7.,
+      8.,   9.,   10.,  20.,  30.,  40., 50.,  60.,  70.,  80.,  90., 100.};
+
+  const int nBinsPtReduced = 28;
+  const double xBinsPtReduced[nBinsPtReduced + 1] = {
+      0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.12, 0.14, 0.16, 0.18,
+      0.2,  0.25, 0.3,  0.4,  0.5,  0.6, 0.7,  0.8,  0.9,  1.,
+      2.,   3.,   4.,   5.,   6.,   7.,  8.,   9.,   10.};
+  // Efficiency vs pT
+  effPlotCache.trackEff_vs_pT = new TEfficiency(
+      "trackeff_vs_pT", "Tracking efficiency;Truth pT [GeV/c];Efficiency",
+      nBinsPt, xBinsPt);
   // efficiency vs eta
   effPlotCache.trackEff_vs_eta = PlotHelpers::bookEff(
       "trackeff_vs_eta", "Tracking efficiency;Truth #eta;Efficiency", bEta);

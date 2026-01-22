@@ -56,8 +56,20 @@ void ActsExamples::FakeRatePlotTool::book(
       "nFakeTracks_vs_eta", "Number of fake track candidates", bEta, bNum);
 
   // fake rate vs pT
-  fakeRatePlotCache.fakeRate_vs_pT = PlotHelpers::bookEff(
-      "fakerate_vs_pT", "Tracking fake rate;pT [GeV/c];Fake rate", bPt);
+  const int nBinsPt = 37;
+  const double xBinsPt[nBinsPt + 1] = {
+      0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.25, 0.3,
+      0.4,  0.5,  0.6,  0.7,  0.8,  0.9, 1.,   2.,   3.,   4.,   5.,  6.,   7.,
+      8.,   9.,   10.,  20.,  30.,  40., 50.,  60.,  70.,  80.,  90., 100.};
+  const int nBinsPtReduced = 28;
+  const double xBinsPtReduced[nBinsPtReduced + 1] = {
+      0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.12, 0.14, 0.16, 0.18,
+      0.2,  0.25, 0.3,  0.4,  0.5,  0.6, 0.7,  0.8,  0.9,  1.,
+      2.,   3.,   4.,   5.,   6.,   7.,  8.,   9.,   10.};
+  fakeRatePlotCache.fakeRate_vs_pT = new TEfficiency(
+      "fakerate_vs_pT",
+      "Tracking fake rate;Reco #it{p}_{T} [GeV/#it{c}];Fake rate",
+      nBinsPtReduced, xBinsPtReduced);
   // fake rate vs eta
   fakeRatePlotCache.fakeRate_vs_eta = PlotHelpers::bookEff(
       "fakerate_vs_eta", "Tracking fake rate;#eta;Fake rate", bEta);
